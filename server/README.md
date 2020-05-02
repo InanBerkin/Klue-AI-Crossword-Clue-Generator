@@ -3,7 +3,7 @@
 Run the scraper
 ```bash
 npm i
-node scraper.js
+node app.js
 ```
 
 ## Get started
