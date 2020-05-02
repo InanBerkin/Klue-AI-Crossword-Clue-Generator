@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "HOST"
+        },
+        {
+            "clue": "5A",
+            "answer": "DEUCE"
+        },
+        {
+            "clue": "6A",
+            "answer": "ULTRA"
+        },
+        {
+            "clue": "7A",
+            "answer": "FLEAS"
+        },
+        {
+            "clue": "8A",
+            "answer": "FORME"
+        }
+    ],
+    "down": [
+        {
+            "clue": "5D",
+            "answer": "DUFF"
+        },
+        {
+            "clue": "1D",
+            "answer": "HELLO"
+        },
+        {
+            "clue": "2D",
+            "answer": "OUTER"
+        },
+        {
+            "clue": "3D",
+            "answer": "SCRAM"
+        },
+        {
+            "clue": "4D",
+            "answer": "TEASE"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Starter of a Zoom meeting"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "40-all, in tennis"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Prefix with orthodox"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Annoyances for a dog"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "\"Personally ...\""
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "#1 hit for Adele in 2015 and Lionel Richie in 1984"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "North Carolina's ___ Banks"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "\"Get outta here!\""
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Poke fun at"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Hilary who played Lizzie McGuire"
+            }
+        ]
+    }
+}

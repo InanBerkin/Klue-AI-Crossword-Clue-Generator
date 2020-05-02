@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "LACKS"
+        },
+        {
+            "clue": "6A",
+            "answer": "IGLOO"
+        },
+        {
+            "clue": "7A",
+            "answer": "GREEN"
+        },
+        {
+            "clue": "8A",
+            "answer": "HEADY"
+        },
+        {
+            "clue": "9A",
+            "answer": "TEN"
+        }
+    ],
+    "down": [
+        {
+            "clue": "1D",
+            "answer": "LIGHT"
+        },
+        {
+            "clue": "2D",
+            "answer": "AGREE"
+        },
+        {
+            "clue": "3D",
+            "answer": "CLEAN"
+        },
+        {
+            "clue": "4D",
+            "answer": "KOED"
+        },
+        {
+            "clue": "5D",
+            "answer": "SONY"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Doesn't have"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Shelter built of snow"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "With 1-Down, go-ahead signal"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Exhilarating and intoxicating"
+            },
+            {
+                "clueNumber": "9",
+                "clueText": "Number of Canadian provinces"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "With 7-Across, color of a dollar bill"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Have a similar notion"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Vacuum and sweep, e.g."
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Down for the count"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Maker of the Walkman and PlayStation"
+            }
+        ]
+    }
+}

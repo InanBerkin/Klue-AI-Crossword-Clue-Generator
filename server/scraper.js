@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 const url = "https://www.nytimes.com/crosswords/game/mini";
 
@@ -22,6 +23,7 @@ async function getCrosswordData() {
 }
 
 async function revealPuzzle(page) {
+    // Click on the initial popup and then click on the reveal button
     await (await page.$('button[aria-label="OK"]')).click();
     await (await page.$('button[aria-label="reveal"]')).click();
     const [button] = await page.$x("//*[@id='root']/div/div/div[4]/div/main/div[2]/div/div/ul/div[2]/li[2]/ul/li[3]");
@@ -33,8 +35,11 @@ async function revealPuzzle(page) {
 }
 
 async function getAnswers(page) {
+    // Wait for puzzle to be solved
     await page.waitForSelector("[aria-live='polite']");
     await page.waitForSelector(".Shame-revealed--3jDzk");
+
+    // Get the letters in each block and numbers if any
     let options = await (await page.$("g[data-group='cells']")).$$eval("g", options => options.map(option => {
         if (option.childNodes.length === 1) {
             return null;
@@ -45,6 +50,8 @@ async function getAnswers(page) {
             letter: text[text.length - 1]
         };
     }));
+
+    // Push answers to a grid
     const gridSize = Math.sqrt(options.length);
     let grid = [];
     for (let i = 0; i < options.length; i = i + gridSize) {
@@ -70,9 +77,48 @@ async function getClues(page) {
     return { acrossClues, downClues };
 }
 
-// (async () => {
-//     let x = await getCrosswordData();
-//     console.log(x.answers);
-// })();
+(async () => {
+    let { answers, clues } = await getCrosswordData();
+    const GRID_SIZE = 5;
+    let across = [];
+    let down = [];
+
+    for (let i = 0; i < GRID_SIZE; i++) {
+        let answer = "";
+        let clue = null;
+        for (let j = 0; j < GRID_SIZE; j++) {
+            block = answers[i][j];
+            if (block != null) {
+                answer += block.letter;
+                if (clue == null && block.num != null) {
+                    clue = block.num + "A";
+                }
+            }
+        }
+        across.push({ clue, answer })
+    }
+
+    for (let i = 0; i < GRID_SIZE; i++) {
+        let answer = "";
+        let clue = null;
+        for (let j = 0; j < GRID_SIZE; j++) {
+            block = answers[j][i];
+            if (block != null) {
+                answer += block.letter;
+                if (clue == null && block.num != null) {
+                    clue = block.num + "D";
+                }
+            }
+        }
+        down.push({ clue, answer })
+    }
+
+    fs.writeFile(new Date().toISOString().slice(0, 10) + ".json", JSON.stringify({ across, down, clues }), function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+    })
+
+})();
 
 module.exports = getCrosswordData;

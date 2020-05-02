@@ -2,6 +2,7 @@
   import Cell from "./Cell.svelte";
   import { onMount } from "svelte";
   let cwData = getData();
+  let newClues = getNewClues();
   let currentTime = new Date().toLocaleString();
 
   onMount(() => {
@@ -17,8 +18,35 @@
   async function getData() {
     let response = await fetch(`http://localhost:3000`);
     let text = await response.json();
-    console.log(text);
     return text;
+  }
+
+  async function getNewClues() {
+    let response = await fetch(`http://localhost:5000`);
+    let clues = await response.json();
+    let filtered_clues = clues.map(item => ({
+      position: item[3],
+      clue: item[2]
+    }));
+
+    let newAcross = [];
+    let newDown = [];
+
+    filtered_clues.forEach(({ position, clue }) => {
+      if (position.charAt(1) === "A") {
+        newAcross.push({
+          clueNumber: position.charAt(0),
+          clueText: clue
+        });
+      } else if (position.charAt(1) === "D") {
+        newDown.push({
+          clueNumber: position.charAt(0),
+          clueText: clue
+        });
+      }
+    });
+
+    return { newAcross, newDown };
   }
 </script>
 
@@ -28,13 +56,6 @@
     padding: 1em;
     max-width: 240px;
     margin: 0 auto;
-  }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
   }
 
   @media (min-width: 640px) {
@@ -56,6 +77,7 @@
     display: flex;
     height: 75px;
   }
+
   .clues {
     display: inline-flex;
     justify-content: start;
@@ -66,6 +88,10 @@
     display: inline-block;
     margin: 20px;
     margin-top: 0px;
+  }
+
+  .clue-section {
+    width: 100%;
   }
 
   .info {
@@ -97,23 +123,49 @@
         </div>
       </div>
       <div class="clues">
-        <div class="clue-bar">
-          <h2>Across Clues</h2>
-          {#each value.clues.acrossClues as clue}
-            <p>
-              <b>{clue.clueNumber}</b>
-              {' '}{clue.clueText}
-            </p>
-          {/each}
+        <div class="clue-section">
+          <div class="clue-bar">
+            <h2>Across Clues</h2>
+            {#each value.clues.acrossClues as clue}
+              <p>
+                <b>{clue.clueNumber}</b>
+                {' '}{clue.clueText}
+              </p>
+            {/each}
+          </div>
+          <div class="clue-bar">
+            <h2>Down Clues</h2>
+            {#each value.clues.downClues as clue}
+              <p>
+                <b>{clue.clueNumber}</b>
+                {' '}{clue.clueText}
+              </p>
+            {/each}
+          </div>
         </div>
-        <div class="clue-bar">
-          <h2>Down Clues</h2>
-          {#each value.clues.downClues as clue}
-            <p>
-              <b>{clue.clueNumber}</b>
-              {' '}{clue.clueText}
-            </p>
-          {/each}
+        <div class="clue-section">
+          {#await newClues}
+            Loading new clues...
+          {:then value}
+            <div class="clue-bar">
+              <h2>New Across Clues</h2>
+              {#each value.newAcross as clue}
+                <p>
+                  <b>{clue.clueNumber}</b>
+                  {' '}{clue.clueText}
+                </p>
+              {/each}
+            </div>
+            <div class="clue-bar">
+              <h2>New Down Clues</h2>
+              {#each value.newDown as clue}
+                <p>
+                  <b>{clue.clueNumber}</b>
+                  {' '}{clue.clueText}
+                </p>
+              {/each}
+            </div>
+          {/await}
         </div>
       </div>
     {:catch error}

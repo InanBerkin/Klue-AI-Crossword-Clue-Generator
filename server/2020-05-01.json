@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "IDS"
+        },
+        {
+            "clue": "4A",
+            "answer": "CLUE"
+        },
+        {
+            "clue": "5A",
+            "answer": "GHOST"
+        },
+        {
+            "clue": "6A",
+            "answer": "RISK"
+        },
+        {
+            "clue": "7A",
+            "answer": "RAT"
+        }
+    ],
+    "down": [
+        {
+            "clue": "5D",
+            "answer": "GRR"
+        },
+        {
+            "clue": "4D",
+            "answer": "CHIA"
+        },
+        {
+            "clue": "1D",
+            "answer": "ILOST"
+        },
+        {
+            "clue": "2D",
+            "answer": "DUSK"
+        },
+        {
+            "clue": "3D",
+            "answer": "SET"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Passport and driver's license, e.g."
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Game with nine rooms"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Word game where players take turns adding a letter"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Board game in which Brazil might attack North Africa"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Egyptian ___ Screw (card game)"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Game player's lament"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Twilight"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Card game with squiggles and diamonds"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Kind of seeds in a healthy smoothie"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "a"
+            }
+        ]
+    }
+}

@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "ARAB"
+        },
+        {
+            "clue": "5A",
+            "answer": "DOOR"
+        },
+        {
+            "clue": "6A",
+            "answer": "ZEBRA"
+        },
+        {
+            "clue": "7A",
+            "answer": "ZLOTY"
+        },
+        {
+            "clue": "8A",
+            "answer": "ZETAS"
+        }
+    ],
+    "down": [
+        {
+            "clue": "6D",
+            "answer": "ZZZ"
+        },
+        {
+            "clue": "1D",
+            "answer": "ADELE"
+        },
+        {
+            "clue": "2D",
+            "answer": "ROBOT"
+        },
+        {
+            "clue": "3D",
+            "answer": "AORTA"
+        },
+        {
+            "clue": "4D",
+            "answer": "BRAYS"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Saudi or Iraqi"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Something that's often pulled when it should be pushed"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "\"How the ___ Got Its Stripes\" (folk tale)"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Currency of Poland"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Greek letters that you might think are alphabetically last, but aren't"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "\"Rolling in the Deep\" singer, 2010"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Frequent story subject of Isaac Asimov"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Artery from the heart"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Donkey sounds"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Sound asleep?"
+            }
+        ]
+    }
+}

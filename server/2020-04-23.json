@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "BRIE"
+        },
+        {
+            "clue": "5A",
+            "answer": "RIND"
+        },
+        {
+            "clue": "6A",
+            "answer": "KINDA"
+        },
+        {
+            "clue": "7A",
+            "answer": "INSUM"
+        },
+        {
+            "clue": "8A",
+            "answer": "TEES"
+        }
+    ],
+    "down": [
+        {
+            "clue": "6D",
+            "answer": "KIT"
+        },
+        {
+            "clue": "1D",
+            "answer": "BRINE"
+        },
+        {
+            "clue": "2D",
+            "answer": "RINSE"
+        },
+        {
+            "clue": "3D",
+            "answer": "INDUS"
+        },
+        {
+            "clue": "4D",
+            "answer": "EDAM"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Soft French cheese"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Cheese coating"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Sorta"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "\"So, to recap ...\""
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Many free shirts"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Salty mixture used for making feta cheese"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Wash off"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Major river that flows through China, India and Pakistan"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Dutch cheese"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "First aid container"
+            }
+        ]
+    }
+}

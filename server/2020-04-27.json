@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "WOMB"
+        },
+        {
+            "clue": "5A",
+            "answer": "JOKER"
+        },
+        {
+            "clue": "6A",
+            "answer": "ANIME"
+        },
+        {
+            "clue": "7A",
+            "answer": "YKNOW"
+        },
+        {
+            "clue": "8A",
+            "answer": "ZAGS"
+        }
+    ],
+    "down": [
+        {
+            "clue": "5D",
+            "answer": "JAYZ"
+        },
+        {
+            "clue": "1D",
+            "answer": "WONKA"
+        },
+        {
+            "clue": "2D",
+            "answer": "OKING"
+        },
+        {
+            "clue": "3D",
+            "answer": "MEMOS"
+        },
+        {
+            "clue": "4D",
+            "answer": "BREW"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Where a baby develops"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "2019 role for which Joaquin Phoenix won the Best Actor Oscar"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Japanese cartoon genre"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "\"Catch my drift?\""
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Turns sharply"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Literary character with a chocolate factory"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Approving"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Notes to office staff"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Beer, slangily"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "First rapper in the Songwriters Hall of Fame"
+            }
+        ]
+    }
+}

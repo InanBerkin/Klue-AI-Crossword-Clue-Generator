@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "GAP"
+        },
+        {
+            "clue": "4A",
+            "answer": "PAULO"
+        },
+        {
+            "clue": "6A",
+            "answer": "INAPP"
+        },
+        {
+            "clue": "7A",
+            "answer": "TENSE"
+        },
+        {
+            "clue": "8A",
+            "answer": "TWO"
+        }
+    ],
+    "down": [
+        {
+            "clue": "4D",
+            "answer": "PITT"
+        },
+        {
+            "clue": "5D",
+            "answer": "ANEW"
+        },
+        {
+            "clue": "1D",
+            "answer": "GUANO"
+        },
+        {
+            "clue": "2D",
+            "answer": "ALPS"
+        },
+        {
+            "clue": "3D",
+            "answer": "POPE"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Opening"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "São ___ (most populous city in Brazil)"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Kind of purchase for a mobile game"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "On edge"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Sum total of snake eyes"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Rich fertilizer from bats"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "\"Napoleon Crossing the ___\" (famous painting)"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Francis or one of his predecessors"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Brad who played Dr. Fauci on \"Saturday Night Live\""
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "All over again"
+            }
+        ]
+    }
+}

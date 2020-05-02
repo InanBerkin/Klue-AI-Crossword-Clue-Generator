@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "MOP"
+        },
+        {
+            "clue": "4A",
+            "answer": "TYPES"
+        },
+        {
+            "clue": "6A",
+            "answer": "IBEAM"
+        },
+        {
+            "clue": "7A",
+            "answer": "EARTH"
+        },
+        {
+            "clue": "8A",
+            "answer": "DAY"
+        }
+    ],
+    "down": [
+        {
+            "clue": "4D",
+            "answer": "TIE"
+        },
+        {
+            "clue": "1D",
+            "answer": "MYBAD"
+        },
+        {
+            "clue": "2D",
+            "answer": "OPERA"
+        },
+        {
+            "clue": "3D",
+            "answer": "PEATY"
+        },
+        {
+            "clue": "5D",
+            "answer": "SMH"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Cleaning tool in a bucket"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Varieties"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Skyscraper support named for a vowel"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "With 8-Across, annual environmental celebration"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "See 7-Across"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "\"I'll take the blame for that\""
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "What Ruth Bader Ginsburg and Antonin Scalia bonded over"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Like Scotch with a smoky taste"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Even score"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "\"That's ridiculous,\" in text shorthand"
+            }
+        ]
+    }
+}

@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "GIFT"
+        },
+        {
+            "clue": "5A",
+            "answer": "SNORE"
+        },
+        {
+            "clue": "6A",
+            "answer": "TOWIT"
+        },
+        {
+            "clue": "7A",
+            "answer": "AMAZE"
+        },
+        {
+            "clue": "8A",
+            "answer": "GENZ"
+        }
+    ],
+    "down": [
+        {
+            "clue": "5D",
+            "answer": "STAG"
+        },
+        {
+            "clue": "1D",
+            "answer": "GNOME"
+        },
+        {
+            "clue": "2D",
+            "answer": "IOWAN"
+        },
+        {
+            "clue": "3D",
+            "answer": "FRIZZ"
+        },
+        {
+            "clue": "4D",
+            "answer": "TETE"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Birthday purchase"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "\"Zzzzz\" sound"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Namely"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Knock the socks off"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Demographic cohort after millennials"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Garden pest in the Harry Potter books"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Des Moines resident"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Hair problem caused by humidity"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "French for \"head\""
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Deer dad"
+            }
+        ]
+    }
+}
