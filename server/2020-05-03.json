@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "FINCH"
+        },
+        {
+            "clue": "6A",
+            "answer": "ADORE"
+        },
+        {
+            "clue": "7A",
+            "answer": "SAFER"
+        },
+        {
+            "clue": "8A",
+            "answer": "THUMB"
+        },
+        {
+            "clue": "9A",
+            "answer": "ONE"
+        }
+    ],
+    "down": [
+        {
+            "clue": "1D",
+            "answer": "FAST"
+        },
+        {
+            "clue": "2D",
+            "answer": "IDAHO"
+        },
+        {
+            "clue": "3D",
+            "answer": "NOFUN"
+        },
+        {
+            "clue": "4D",
+            "answer": "CREME"
+        },
+        {
+            "clue": "5D",
+            "answer": "HERB"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Bird whose beak helped shape Darwin's evolutionary theories"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Love a bunch"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Less risky"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "First digit"
+            },
+            {
+                "clueNumber": "9",
+                "clueText": "First digit"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Speedy"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "State that's split between the Pacific and Mountain time zones"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Like a buzzkill"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Oreo filling"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Basil or mint"
+            }
+        ]
+    }
+}

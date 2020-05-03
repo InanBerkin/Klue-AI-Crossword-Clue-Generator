@@ -10,6 +10,11 @@ inflect = inflect.engine()
 stop_words = set(stopwords.words('english'))
 
 
+def hideOriginalQuery(query, sentence):
+    return re.sub(
+        '(?i)' + query, '____', sentence)
+
+
 def normalizeText(text):
     text = re.sub("[^a-zA-Z0-9_\- ]", "", text)
     return re.sub("  ", " ", text)
@@ -17,13 +22,6 @@ def normalizeText(text):
 
 def tree2text(tree):
     return normalizeText(" ".join([x[0] for x in tree.flatten()]))
-
-
-def isPerson(text):
-    tagged = nltk.pos_tag([text.capitalize()])
-    namedEnt = nltk.ne_chunk(tagged)
-    print(namedEnt)
-    return namedEnt[0].label() == "PERSON"
 
 
 def getPluralDescription(text):
@@ -47,28 +45,33 @@ def getPluralDescription(text):
 
 def getNominalDescription(text, subject):
     tokens = nltk.word_tokenize(text)
-    tokens = [w for w in tokens if not w in ['is']]
+    tokens = [w for w in tokens if not w.lower() in ['is', 'a']]
     tagged = nltk.pos_tag(tokens)
 
-    # print(" ".join([x[0] for x in tagged]))
-
+    index_of_subject = -1
     for i, tag in enumerate(tagged):
         if tag[0].upper() == subject:
             tagged[i] = (subject, "SUB")
+            index_of_subject = i
 
-    # namedEnt = nltk.ne_chunk(tagged)
-    # print(namedEnt)
+    is_query_hidden = False
+    if index_of_subject > 0:
+        is_query_hidden = True
+
+    if is_query_hidden:
+        return hideOriginalQuery(subject, text)
 
     chunk_rule = ChunkRule("<SUB><.*>*", "Subject Description")
-    chink_rule = ChinkRule("<SUB><V.*>?<DT>?<NN.*>*", "Remove Subjects")
+    chink_rule = ChinkRule("<SUB><V.*>?<DT>?", "Remove Subjects")
 
     chunk_parser = RegexpChunkParser(
         [chunk_rule, chink_rule], chunk_label="Nominal")
+
     chunked = chunk_parser.parse(tagged, trace=True)
 
-    print()
     for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Nominal'):
-        print(tree2text(subtree))
+        return tree2text(subtree)
+
 
 # subject = "AMI"
 # text = "Brine is a high-concentration solution of salt in water"
@@ -77,9 +80,9 @@ def getNominalDescription(text, subject):
 # text = "TOWIT is a free, global, cross-platform mobile app, website, and Web API that allows civilians to report parking violations and dangerous driving in real-time"
 # text = "TETE is the capital city of TETE Province in Mozambique"
 # text = "AMI is a town located in Ibaraki Prefecture, Japan"
-# getNominalDescription(text, subject)
 
 # stemmer = PorterStemmer()
-# stem = stemmer.stem("KOED")
+# stem = stemmer.stem("NOFUN")
 # print(stem)
-# print(nltk.pos_tag(["KOED"]))
+# tokens = nltk.word_tokenize('safer')
+# print(nltk.pos_tag(tokens))
