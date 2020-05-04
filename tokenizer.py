@@ -10,6 +10,12 @@ inflect = inflect.engine()
 stop_words = set(stopwords.words('english'))
 
 
+def compareWords(word1, word2):
+    filtered_word1 = re.sub("[^a-zA-Z0-9]", "", word1).upper()
+    filtered_word2 = re.sub("[^a-zA-Z0-9]", "", word2).upper()
+    return filtered_word1 == filtered_word2
+
+
 def hideOriginalQuery(query, sentence):
     return re.sub(
         '(?i)' + query, '____', sentence)
@@ -45,44 +51,55 @@ def getPluralDescription(text):
 
 def getNominalDescription(text, subject):
     tokens = nltk.word_tokenize(text)
-    tokens = [w for w in tokens if not w.lower() in ['is', 'a']]
+    # tokens = [w for w in tokens if not w.lower() in ['is', 'a']]
     tagged = nltk.pos_tag(tokens)
 
-    index_of_subject = -1
     for i, tag in enumerate(tagged):
-        if tag[0].upper() == subject:
+        if compareWords(tag[0].upper(), subject):
             tagged[i] = (subject, "SUB")
-            index_of_subject = i
-
-    is_query_hidden = False
-    if index_of_subject > 0:
-        is_query_hidden = True
-
-    if is_query_hidden:
-        return hideOriginalQuery(subject, text)
 
     chunk_rule = ChunkRule("<SUB><.*>*", "Subject Description")
-    chink_rule = ChinkRule("<SUB><V.*>?<DT>?", "Remove Subjects")
+    chink_rule = ChinkRule("<VB.*><DT>", "Split by the determiner")
 
     chunk_parser = RegexpChunkParser(
         [chunk_rule, chink_rule], chunk_label="Nominal")
 
     chunked = chunk_parser.parse(tagged, trace=True)
+    subtrees = list(chunked.subtrees(filter=lambda t: t.label() == 'Nominal'))
 
-    for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Nominal'):
+    if len(subtrees[0]) < 2:
+        return None
+    # Ex: Cadbury Creme Egg -> Cadbury ____ Egg
+    if len(subtrees[0]) > 1:
+        return hideOriginalQuery(subject, " ".join([tag[0] for tag in tagged]))
+    else:
+        return tree2text(subtrees[1])
+    # for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Nominal'):
+    #     return tree2text(subtree)
+
+
+def filterEloborateDefinitions(text):
+    # Descriptions with "that, which"
+    tokens = nltk.word_tokenize(text)
+    tagged = nltk.pos_tag(tokens)
+    # print([tag[1] for tag in tagged])
+    has_whdeterminer = "WDT" in [tag[1] for tag in tagged]
+
+    if not has_whdeterminer:
+        return text
+
+    chunk_rule = ChunkRule("<.*>*<WDT>", "Description")
+    chink_rule = ChinkRule("<WDT>", "Remove wh-determiner")
+
+    chunk_parser = RegexpChunkParser(
+        [chunk_rule, chink_rule], chunk_label="Description")
+
+    chunked = chunk_parser.parse(tagged, trace=True)
+
+    for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Description'):
         return tree2text(subtree)
 
 
-# subject = "AMI"
-# text = "Brine is a high-concentration solution of salt in water"
-# text = "Edam is a mild yellow Dutch cheese made in balls encased in a red covering"
-# text = "Brie is a soft cow's-milk cheese named after Brie, the French region from which it originated"
-# text = "TOWIT is a free, global, cross-platform mobile app, website, and Web API that allows civilians to report parking violations and dangerous driving in real-time"
-# text = "TETE is the capital city of TETE Province in Mozambique"
-# text = "AMI is a town located in Ibaraki Prefecture, Japan"
-
-# stemmer = PorterStemmer()
-# stem = stemmer.stem("NOFUN")
-# print(stem)
-# tokens = nltk.word_tokenize('safer')
-# print(nltk.pos_tag(tokens))
+# text = "X-Men Legends II Rise of Apocalypse is an action role-playing game developed primarily by Raven Software and published by Activision"
+# print(getNominalDescription(text, 'XMEN'))
+# print(compareWords("X-Men", 'XMEN'))

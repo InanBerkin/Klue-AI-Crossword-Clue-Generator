@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "WAX"
+        },
+        {
+            "clue": "4A",
+            "answer": "STORM"
+        },
+        {
+            "clue": "6A",
+            "answer": "LARGE"
+        },
+        {
+            "clue": "7A",
+            "answer": "ADDON"
+        },
+        {
+            "clue": "8A",
+            "answer": "GAS"
+        }
+    ],
+    "down": [
+        {
+            "clue": "4D",
+            "answer": "SLAG"
+        },
+        {
+            "clue": "5D",
+            "answer": "TADA"
+        },
+        {
+            "clue": "1D",
+            "answer": "WORDS"
+        },
+        {
+            "clue": "2D",
+            "answer": "ARGO"
+        },
+        {
+            "clue": "3D",
+            "answer": "XMEN"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Crayon material"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Leave angrily, with \"out\""
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "The \"L\" of XL"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Extended warranty or paint protection, at the car dealership"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Regular, plus or premium"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Legal Scrabble plays"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Ship for Jason in Greek mythology"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Superhero team in Marvel Comics"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Refinery waste"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Magician's \"There you have it!\""
+            }
+        ]
+    }
+}

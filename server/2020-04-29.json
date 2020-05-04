@@ -1,1 +1,92 @@
-{"across":[{"clue":"1A","answer":"WOLF"},{"clue":"5A","answer":"OVAL"},{"clue":"6A","answer":"VEGAN"},{"clue":"8A","answer":"ENEMY"},{"clue":"9A","answer":"REC"}],"down":[{"clue":"1D","answer":"WOVE"},{"clue":"2D","answer":"OVEN"},{"clue":"3D","answer":"LAGER"},{"clue":"4D","answer":"FLAME"},{"clue":"7D","answer":"NYC"}],"clues":{"acrossClues":[{"clueNumber":"1","clueText":"Grandmother impersonator in a fairy tale"},{"clueNumber":"5","clueText":"Shape of a toilet seat"},{"clueNumber":"6","clueText":"What \"V\" can mean on food packaging"},{"clueNumber":"8","clueText":"Thanos, to the Avengers"},{"clueNumber":"9","clueText":"___ letter (college app attachment)"}],"downClues":[{"clueNumber":"1","clueText":"Drove dangerously through traffic"},{"clueNumber":"2","clueText":"Baker's need"},{"clueNumber":"3","clueText":"Lumberjack's favorite kind of beer?"},{"clueNumber":"4","clueText":"Criticize scathingly, online"},{"clueNumber":"7","clueText":"Home to the U.N. headquarters"}]}}
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "WOLF"
+        },
+        {
+            "clue": "5A",
+            "answer": "OVAL"
+        },
+        {
+            "clue": "6A",
+            "answer": "VEGAN"
+        },
+        {
+            "clue": "8A",
+            "answer": "ENEMY"
+        },
+        {
+            "clue": "9A",
+            "answer": "REC"
+        }
+    ],
+    "down": [
+        {
+            "clue": "1D",
+            "answer": "WOVE"
+        },
+        {
+            "clue": "2D",
+            "answer": "OVEN"
+        },
+        {
+            "clue": "3D",
+            "answer": "LAGER"
+        },
+        {
+            "clue": "4D",
+            "answer": "FLAME"
+        },
+        {
+            "clue": "7D",
+            "answer": "NYC"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Grandmother impersonator in a fairy tale"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Shape of a toilet seat"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "What \"V\" can mean on food packaging"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Thanos, to the Avengers"
+            },
+            {
+                "clueNumber": "9",
+                "clueText": "___ letter (college app attachment)"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Drove dangerously through traffic"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Baker's need"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Lumberjack's favorite kind of beer?"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Criticize scathingly, online"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Home to the U.N. headquarters"
+            }
+        ]
+    }
+}

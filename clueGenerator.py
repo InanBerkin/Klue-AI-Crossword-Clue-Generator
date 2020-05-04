@@ -7,6 +7,7 @@ from tokenizer import *
 import inflect
 import enchant
 from nltk.stem.porter import *
+import csv
 
 spell_checker = enchant.Dict("en_US")
 inflect = inflect.engine()
@@ -18,7 +19,7 @@ OXFORD_URL = 'https://www.lexico.com/en/definition/'
 WORDNET_URL = 'https://en-word.net/json/lemma/'
 IMDB_MOVIE_URL = 'http://www.omdbapi.com/?apikey=7759058a&s='
 IMDB_PERSON_URL = 'https://www.imdb.com/search/name/?name='
-WIKIDATA_URL = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&search='
+MERRIAM_URL = 'https://dictionaryapi.com/api/v3/references/collegiate/json/'
 API_KEY = "***REMOVED***"
 
 headers = requests.utils.default_headers()
@@ -41,6 +42,11 @@ def compareWords(word1, word2):
     return filtered_word1 == filtered_word2
 
 
+def isWordInText(word, text):
+    return any([True for word_in_name in text.upper().split()
+                if compareWords(word.upper(), word_in_name)])
+
+
 def hideOriginalQuery(query, sentence):
     return re.sub(
         '(?i)' + query, '____', sentence)
@@ -60,18 +66,25 @@ def getSuggestions(query):
     #     return suggestion
     # else:
     #     return None
-    return [word for word in spell_checker.suggest(query) if compareWords(word, query)]
+    suggestions = [word for word in spell_checker.suggest(
+        query) if compareWords(word, query) and word.upper() != query.upper()]
+    suggestions.append(stemmer.stem(query).upper())
+    suggestions.append(query[:1] + " " + query[1:])
+    suggestions.append(query[:1] + "-" + query[1:])
+    suggestions.append(query[:2] + " " + query[2:])
+    return suggestions
 
 
 def postprocessClue(original_query, query, clue):
-    # getPluralDescription
+    if not clue:
+        return (query, None)
     if ";" in clue:
         clue = clue.split(";")[0]
-    if query.upper() in clue.upper():
-        return(query, getNominalDescription(clue, query))
+    if isWordInText(query, clue):
+        return getNominalDescription(clue, query)
     if inflect.plural(query).upper() == original_query.upper():
-        return (query, getPluralDescription(clue))
-    return (query, clue)
+        return getPluralDescription(clue)
+    return clue
 
 
 def getGoogleClues(query):
@@ -87,7 +100,7 @@ def getGoogleClues(query):
 
         for item in response:
             name = item['result']['name']
-            if query.upper() in name.upper():
+            if isWordInText(query, name):
                 search_item = item['result']
                 break
 
@@ -124,14 +137,13 @@ def getWordNetClues(query: str):
             return None
 
         autocompletedQuery = autocompletedQuery[0]['item']
-        if autocompletedQuery.upper() != query:
+        if autocompletedQuery.upper() != query.upper():
             return None
         response = requests.get(
             WORDNET_URL + autocompletedQuery, headers=headers).json()
         for lemma in response:
             if lemma['pos'] == 'n':
-                if ";" in lemma['definition']:
-                    return lemma['definition'].split(";")[1]
+                return lemma['definition']
     except Exception as e:
         print(e)
 
@@ -139,7 +151,7 @@ def getWordNetClues(query: str):
 def getMovieClues(query):
     try:
         page = requests.get(
-            "https://www.imdb.com/search/title/?title="+query+"&title_type=feature&user_rating=7.0,&num_votes=5000,&languages=en")
+            "https://www.imdb.com/search/title/?title="+query+"&title_type=feature&user_rating=7.5,&num_votes=20000,&languages=en")
         soup = BeautifulSoup(page.content, 'html.parser')
         names = soup.select("div.lister-item-content > h3 > a")
         if not names:
@@ -177,14 +189,26 @@ def getFamousPersonClues(query):
         print("Nothing in IMDB Person")
 
 
-def getWikipediaClues(query):
+def getMerriamClues(query):
     try:
-        response = requests.get(WIKIDATA_URL + query + " &language=en").json()
-        if not response['search']:
+        response = requests.get(
+            MERRIAM_URL + query + "?key=06ecdce1-1712-4c0d-8a41-c84b717372cd").json()
+
+        if type(response[0]) is str:
             return None
-        return response['search'][0]['description']
+        if not response[0]['shortdef'][0]:
+            return None
+        # Say it if it is an abbreviation
+        abbreviation_text = "(abbreviation) " if response[
+            0]['fl'] == "abbreviation" else ""
+
+        clue = response[0]['shortdef'][0]
+        if inflect.plural(response[0]['meta']['id']).upper() == query.upper() and response[0]['fl'] == "noun":
+            clue = getPluralDescription(clue)
+
+        return abbreviation_text + clue
     except Exception as e:
-        print("Nothing in Wikipedia")
+        print(e)
 
 
 def getOxfordDictionaryClues(query):
@@ -200,60 +224,72 @@ def getOxfordDictionaryClues(query):
 
 
 def getAllClues(query):
+    def isClueViable(clue):
+        # Filter clues that are too long
+        return clue and clue.count(" ") < 25
+
     if query is None:
         print("Error: Query is None")
         return
+
+    clue = None
     print("Getting clues for", query)
-    clues = []
-    # print("Wikipedia:")
-    # clue = getWikipediaClues(query)
-    # print(clue)
-    # clues.append(clue)
+
     print("\nIMDb Movie:")
     clue = getMovieClues(query)
     print(clue)
-    clues.append(clue)
+    if isClueViable(clue):
+        return clue
+
+    print("Merriam:")
+    clue = getMerriamClues(query)
+    print(clue)
+    if isClueViable(clue):
+        return clue
+
     print("\nOxford:")
     clue = getOxfordDictionaryClues(query)
     print(clue)
-    clues.append(clue)
-    print("\nGoogle:")
-    clue = getGoogleClues(query)
-    print(clue)
-    clues.append(clue)
+    if isClueViable(clue):
+        return clue
+
     print("\nWordNet:")
     clue = getWordNetClues(query)
     print(clue)
-    clues.append(clue)
+    if isClueViable(clue):
+        return clue
+
+    print("\nGoogle:")
+    clue = getGoogleClues(query)
+    print(clue)
+    if isClueViable(clue):
+        return clue
     # Only search if nothing else is left, for performance it is disabled
-    if not clues:
+    if not clue:
         print("\nIMDb Person:")
         clue = getFamousPersonClues(query)
-        print(clue)
-        clues.append(clue)
+        if isClueViable(clue):
+            return clue
 
-    clues = filterNones(clues)
-    return clues
+    return clue
 
 
 def generateNewCrosswordCluesForQuery(query):
-    clues = getAllClues(query)
+    clue = getAllClues(query)
     suggestions = []
 
-    if not clues:
+    if not clue:
         suggestions = getSuggestions(query)
         for suggested_query in suggestions:
             suggested_clues = getAllClues(suggested_query)
             if suggested_clues:
                 return (suggested_query, suggested_clues[0])
 
-    if not clues:
+    if not clue:
         print("No clue found for", query)
         return (None, None)
 
-    processedClue = postprocessClue(
-        original_query=query, query=query, clue=clues[0])
-    return(query, processedClue)
+    return(query, clue)
 
 
 def generateNewClues():
@@ -265,11 +301,155 @@ def generateNewClues():
     for data in across + down:
         original_query = data['answer']
         altered_query, clue = generateNewCrosswordCluesForQuery(original_query)
-        result.append((altered_query, clue, data['clue']))
+        processed_clue = postprocessClue(original_query, altered_query, clue)
+        result.append((altered_query, processed_clue, data['clue']))
 
     prettyPrint(result)
     return result
 
 
-# print(generateNewCrosswordCluesForQuery('FLAME'))
-generateNewClues()
+def testSingleWord(query):
+    original_query = query
+    altered_query, clue = generateNewCrosswordCluesForQuery(original_query)
+    processed_clue = postprocessClue(original_query, altered_query, clue)
+    return((original_query, altered_query, processed_clue))
+
+
+print(testSingleWord('PEATY'))
+# # print(getSuggestions('ILOST'))
+# words = ['ADDON',
+#          'ADELE',
+#          'ADORE',
+#          'AGREE',
+#          'ALPS',
+#          'AMAZE',
+#          'ANEW',
+#          'ANIME',
+#          'AORTA',
+#          'ARAB',
+#          'ARGO',
+#          'BRAYS',
+#          'BREW',
+#          'BRIE',
+#          'BRINE',
+#          'CHIA',
+#          'CLEAN',
+#          'CLUE',
+#          'CREME',
+#          'DAY',
+#          'DEUCE',
+#          'DOOR',
+#          'DUFF',
+#          'DUSK',
+#          'EARTH',
+#          'EDAM',
+#          'ENEMY',
+#          'FAST',
+#          'FINCH',
+#          'FLAME',
+#          'FLEAS',
+#          'FORME',
+#          'FRIZZ',
+#          'GAP',
+#          'GAS',
+#          'GENZ',
+#          'GHOST',
+#          'GIFT',
+#          'GNOME',
+#          'GREEN',
+#          'GRR',
+#          'GUANO',
+#          'HEADY',
+#          'HELLO',
+#          'HERB',
+#          'HOST',
+#          'IBEAM',
+#          'IDAHO',
+#          'IDS',
+#          'IGLOO',
+#          'ILOST',
+#          'INAPP',
+#          'INDUS',
+#          'INSUM',
+#          'IOWAN',
+#          'JAYZ',
+#          'JOKER',
+#          'KINDA',
+#          'KIT',
+#          'KOED',
+#          'LACKS',
+#          'LAGER',
+#          'LARGE',
+#          'LIGHT',
+#          'MEMOS',
+#          'MOP',
+#          'MYBAD',
+#          'NOFUN',
+#          'NYC',
+#          'OKING',
+#          'ONE',
+#          'OPERA',
+#          'OUTER',
+#          'OVAL',
+#          'OVEN',
+#          'PAULO',
+#          'PEATY',
+#          'PITT',
+#          'POPE',
+#          'RAT',
+#          'REC',
+#          'RIND',
+#          'RINSE',
+#          'RISK',
+#          'ROBOT',
+#          'SAFER',
+#          'SCRAM',
+#          'SET',
+#          'SLAG',
+#          'SMH',
+#          'SNORE',
+#          'SONY',
+#          'STAG',
+#          'STORM',
+#          'TADA',
+#          'TEASE',
+#          'TEES',
+#          'TEN',
+#          'TENSE',
+#          'TETE',
+#          'THUMB',
+#          'TIE',
+#          'TOWIT',
+#          'TWO',
+#          'TYPES',
+#          'ULTRA',
+#          'VEGAN',
+#          'WAX',
+#          'WOLF',
+#          'WOMB',
+#          'WONKA',
+#          'WORDS',
+#          'WOVE',
+#          'XMEN',
+#          'YKNOW',
+#          'ZAGS',
+#          'ZEBRA',
+#          'ZETAS',
+#          'ZLOTY',
+#          'ZZZ']
+
+# f = open('all_clues.csv', 'w')
+# writer = csv.DictWriter(f, fieldnames=['Original', 'New', 'Clue'])
+# writer.writeheader()
+# with f:
+#     for word in words:
+#         try:
+#             data = testSingleWord(word)
+#             writer.writerow(
+#                 {'Original': data[0], 'New': data[1], 'Clue': data[2]})
+#         except:
+#             print("Error")
+#             writer.writerow(
+#                 {'Original': word, 'New': 'ERROR', 'Clue': 'ERROR'})
+
+# generateNewClues()
