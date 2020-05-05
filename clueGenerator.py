@@ -8,6 +8,7 @@ import inflect
 import enchant
 from nltk.stem.porter import *
 import csv
+import html
 
 spell_checker = enchant.Dict("en_US")
 inflect = inflect.engine()
@@ -20,6 +21,7 @@ WORDNET_URL = 'https://en-word.net/json/lemma/'
 IMDB_MOVIE_URL = 'http://www.omdbapi.com/?apikey=7759058a&s='
 IMDB_PERSON_URL = 'https://www.imdb.com/search/name/?name='
 MERRIAM_URL = 'https://dictionaryapi.com/api/v3/references/collegiate/json/'
+THESAURUS_URL = 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/'
 API_KEY = "***REMOVED***"
 
 headers = requests.utils.default_headers()
@@ -72,6 +74,7 @@ def getSuggestions(query):
     suggestions.append(query[:1] + " " + query[1:])
     suggestions.append(query[:1] + "-" + query[1:])
     suggestions.append(query[:2] + " " + query[2:])
+    suggestions.append(query[:1] + "\'" + query[1:])
     return suggestions
 
 
@@ -122,8 +125,8 @@ def getGoogleClues(query):
         if 'detailedDescription' in search_item:
             detailed_description = search_item['detailedDescription']['articleBody'].split(".")[
                 0]
-            return detailed_description if detailed_description.count(" ") > 1 else None
-        return basic_description if basic_description.count(" ") > 1 else None
+            return html.unescape(detailed_description) if detailed_description.count(" ") > 1 else None
+        return html.unescape(basic_description) if basic_description.count(" ") > 1 else None
     except Exception as e:
         print(e)
         print("Nothing in Google Knowledge")
@@ -190,21 +193,41 @@ def getFamousPersonClues(query):
 
 
 def getMerriamClues(query):
+    dict_key = "?key=06ecdce1-1712-4c0d-8a41-c84b717372cd"
+    thesaurus_key = "?key=a77064dd-cb30-4dbd-99e3-d18a1c57b090"
+
     try:
         response = requests.get(
             MERRIAM_URL + query + "?key=06ecdce1-1712-4c0d-8a41-c84b717372cd").json()
-
         if type(response[0]) is str:
             return None
+
+        # Past tense verb
+        if 'cxs' in response[0] and response[0]['cxs'][0]['cxl'] == "past tense of":
+            return "past tense of " + response[0]['cxs'][0]['cxtis'][0]['cxt']
+
         if not response[0]['shortdef'][0]:
             return None
-        # Say it if it is an abbreviation
-        abbreviation_text = "(abbreviation) " if response[
-            0]['fl'] == "abbreviation" else ""
 
-        clue = response[0]['shortdef'][0]
-        if inflect.plural(response[0]['meta']['id']).upper() == query.upper() and response[0]['fl'] == "noun":
-            clue = getPluralDescription(clue)
+        clue = ""
+        print(response[0]['fl'])
+
+        # Ex: strum(noun) -> an act, instance, or sound of strumming
+        for alternative_meaning in response:
+            short_def = alternative_meaning['shortdef'][0]
+            if ";" in short_def:
+                short_def = short_def.split(";")[0]
+            words_in_definition = short_def.split()
+            stems = list(map(stemmer.stem, words_in_definition))
+            if query.lower() not in stems:
+                clue = short_def
+                break
+        # Say it if it is an abbreviation
+        abbreviation_text = "(abbreviation) " if response[0]['fl'] == "abbreviation" else ""
+
+        if inflect.plural(normalizeText(response[0]['hwi']['hw'])).upper() == query.upper() and response[0]['fl'] == "noun":
+            # clue = getPluralDescription(clue)
+            clue = clue + " (Plural)"
 
         return abbreviation_text + clue
     except Exception as e:
@@ -221,6 +244,12 @@ def getOxfordDictionaryClues(query):
         return desc.text
     except:
         print("Nothing in Oxford")
+
+
+def getGoogleSearchRawClues(query):
+    page = requests.get(
+        "https://www.imdb.com/search/title/?title="+query+"&title_type=feature&user_rating=7.5,&num_votes=20000,&languages=en")
+    soup = BeautifulSoup(page.content, 'html.parser')
 
 
 def getAllClues(query):
@@ -283,7 +312,7 @@ def generateNewCrosswordCluesForQuery(query):
         for suggested_query in suggestions:
             suggested_clues = getAllClues(suggested_query)
             if suggested_clues:
-                return (suggested_query, suggested_clues[0])
+                return (suggested_query, suggested_clues)
 
     if not clue:
         print("No clue found for", query)
@@ -315,28 +344,37 @@ def testSingleWord(query):
     return((original_query, altered_query, processed_clue))
 
 
-print(testSingleWord('PEATY'))
-# # print(getSuggestions('ILOST'))
+# generateNewClues()
+
+
+print(testSingleWord('TIES'))
+# print(getSuggestions('ILOST'))
+
 # words = ['ADDON',
 #          'ADELE',
 #          'ADORE',
 #          'AGREE',
 #          'ALPS',
 #          'AMAZE',
+#          'AMORE',
 #          'ANEW',
 #          'ANIME',
 #          'AORTA',
 #          'ARAB',
 #          'ARGO',
+#          'AROSE',
 #          'BRAYS',
 #          'BREW',
 #          'BRIE',
 #          'BRINE',
+#          'CASE',
 #          'CHIA',
 #          'CLEAN',
 #          'CLUE',
+#          'COMET',
 #          'CREME',
 #          'DAY',
+#          'DESUS',
 #          'DEUCE',
 #          'DOOR',
 #          'DUFF',
@@ -344,11 +382,14 @@ print(testSingleWord('PEATY'))
 #          'EARTH',
 #          'EDAM',
 #          'ENEMY',
+#          'EYES',
+#          'FADS',
 #          'FAST',
 #          'FINCH',
 #          'FLAME',
 #          'FLEAS',
 #          'FORME',
+#          'FORTY',
 #          'FRIZZ',
 #          'GAP',
 #          'GAS',
@@ -410,7 +451,9 @@ print(testSingleWord('PEATY'))
 #          'SNORE',
 #          'SONY',
 #          'STAG',
+#          'STEM',
 #          'STORM',
+#          'STRUM',
 #          'TADA',
 #          'TEASE',
 #          'TEES',
@@ -438,6 +481,7 @@ print(testSingleWord('PEATY'))
 #          'ZLOTY',
 #          'ZZZ']
 
+
 # f = open('all_clues.csv', 'w')
 # writer = csv.DictWriter(f, fieldnames=['Original', 'New', 'Clue'])
 # writer.writeheader()
@@ -451,5 +495,3 @@ print(testSingleWord('PEATY'))
 #             print("Error")
 #             writer.writerow(
 #                 {'Original': word, 'New': 'ERROR', 'Clue': 'ERROR'})
-
-# generateNewClues()

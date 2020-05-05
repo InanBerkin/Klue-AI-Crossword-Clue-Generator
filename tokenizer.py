@@ -43,7 +43,7 @@ def getPluralDescription(text):
     chunked = chunk_parser.parse(tagged, trace=True)
 
     for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Singular Noun'):
-        subtree[:] = [(inflect.plural(subtree[-1][0]), "Plural")]
+        subtree[-1:] = [(inflect.plural(subtree[-1][0]), "Plural")]
         break
 
     return tree2text(chunked)
@@ -100,6 +100,9 @@ def filterEloborateDefinitions(text):
         return tree2text(subtree)
 
 
-# text = "X-Men Legends II Rise of Apocalypse is an action role-playing game developed primarily by Raven Software and published by Activision"
-# print(getNominalDescription(text, 'XMEN'))
+# text = "Desus & Mero is an American television late-night talk show series hosted by comedians Desus Nice and The Kid Mero"
+# print(getNominalDescription(text, 'DESUS'))
 # print(compareWords("X-Men", 'XMEN'))
+# stemmer = PorterStemmer()
+# print(nltk.pos_tag(['AROSE']))
+# print(stemmer.stem('Arose'))

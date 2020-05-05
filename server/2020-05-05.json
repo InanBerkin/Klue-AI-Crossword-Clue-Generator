@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "CASE"
+        },
+        {
+            "clue": "5A",
+            "answer": "FORTY"
+        },
+        {
+            "clue": "6A",
+            "answer": "AMORE"
+        },
+        {
+            "clue": "7A",
+            "answer": "DESUS"
+        },
+        {
+            "clue": "8A",
+            "answer": "STEM"
+        }
+    ],
+    "down": [
+        {
+            "clue": "5D",
+            "answer": "FADS"
+        },
+        {
+            "clue": "1D",
+            "answer": "COMET"
+        },
+        {
+            "clue": "2D",
+            "answer": "AROSE"
+        },
+        {
+            "clue": "3D",
+            "answer": "STRUM"
+        },
+        {
+            "clue": "4D",
+            "answer": "EYES"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "24 cans of beer"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Negative temperature at which Fahrenheit and Celsius intersect, the only such point"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Love, in Italian"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "\"___ & Mero\" (late-night show)"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Flower supporter"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Night sky streaker"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Got up"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Play the guitar"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Everyone sees right through them"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "The Mannequin Challenge and Pokémon Go, in the 2010s"
+            }
+        ]
+    }
+}
