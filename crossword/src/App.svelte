@@ -25,9 +25,11 @@
     let response = await fetch(`http://localhost:5000`);
     let clues = await response.json();
     let filtered_clues = clues.map(item => ({
-      position: item[3],
-      clue: item[2]
+      position: item[2],
+      clue: item[1]
     }));
+
+    console.log(clues);
 
     let newAcross = [];
     let newDown = [];
@@ -45,6 +47,8 @@
         });
       }
     });
+    newDown.sort((a, b) => a.clueNumber - b.clueNumber);
+    console.log(newDown);
 
     return { newAcross, newDown };
   }
@@ -69,6 +73,8 @@
     width: 50%;
     text-align: center;
     margin-top: 16px;
+    margin-right: 100px;
+    margin-left: 100px;
   }
 
   .row {

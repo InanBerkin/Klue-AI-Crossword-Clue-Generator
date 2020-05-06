@@ -67,8 +67,9 @@ def getNominalDescription(text, subject):
     chunked = chunk_parser.parse(tagged, trace=True)
     subtrees = list(chunked.subtrees(filter=lambda t: t.label() == 'Nominal'))
 
-    if len(subtrees[0]) < 2:
-        return None
+    if len(subtrees) < 2:
+        return tree2text(subtrees[0])
+
     # Ex: Cadbury Creme Egg -> Cadbury ____ Egg
     if len(subtrees[0]) > 1:
         return hideOriginalQuery(subject, " ".join([tag[0] for tag in tagged]))
@@ -100,8 +101,8 @@ def filterEloborateDefinitions(text):
         return tree2text(subtree)
 
 
-# text = "Desus & Mero is an American television late-night talk show series hosted by comedians Desus Nice and The Kid Mero"
-# print(getNominalDescription(text, 'DESUS'))
+# text = "A large southern constellation (the ship Argo), which is now divided into the constellations Carina, Puppis, and Vela."
+# print(getNominalDescription(text, 'ARGO'))
 # print(compareWords("X-Men", 'XMEN'))
 # stemmer = PorterStemmer()
 # print(nltk.pos_tag(['AROSE']))

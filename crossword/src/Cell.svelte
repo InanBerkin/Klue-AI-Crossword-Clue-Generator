@@ -14,6 +14,7 @@
     font-size: 2rem;
     flex-direction: column;
     outline: 3px solid black;
+    line-height: 1;
     /* border: 5px solid black; */
   }
 

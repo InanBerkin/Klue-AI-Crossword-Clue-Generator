@@ -30,6 +30,10 @@ headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHT
 # UTIL FUNCTIONS
 
 
+def isPluralForm(single, plural):
+    return compareWords(inflect.plural(single), plural)
+
+
 def filterNones(arr):
     return [x for x in arr if x is not None]
 
@@ -55,21 +59,9 @@ def hideOriginalQuery(query, sentence):
 
 
 def getSuggestions(query):
-    # TRY KOED
-    # page = requests.get(OXFORD_URL + query.replace(" ",
-    #                                                "_"), allow_redirects=False)
-    # soup = BeautifulSoup(page.content, 'html.parser')
-    # suggestion_element = soup.select_one(
-    #     "ul.search-results > li:nth-child(1) > a")
-    # if suggestion_element is None:
-    #     return None
-    # suggestion = suggestion_element.text
-    # if compareWords(suggestion, query):
-    #     return suggestion
-    # else:
-    #     return None
-    suggestions = [word for word in spell_checker.suggest(
-        query) if compareWords(word, query) and word.upper() != query.upper()]
+    suggestions = []
+    # suggestions = [word for word in spell_checker.suggest(
+    #     query) if compareWords(word, query) and word.upper() != query.upper()]
     suggestions.append(stemmer.stem(query).upper())
     suggestions.append(query[:1] + " " + query[1:])
     suggestions.append(query[:1] + "-" + query[1:])
@@ -86,7 +78,7 @@ def postprocessClue(original_query, query, clue):
     if isWordInText(query, clue):
         return getNominalDescription(clue, query)
     if inflect.plural(query).upper() == original_query.upper():
-        return getPluralDescription(clue)
+        return clue + " (Plural)"
     return clue
 
 
@@ -126,7 +118,7 @@ def getGoogleClues(query):
             detailed_description = search_item['detailedDescription']['articleBody'].split(".")[
                 0]
             return html.unescape(detailed_description) if detailed_description.count(" ") > 1 else None
-        return html.unescape(basic_description) if basic_description.count(" ") > 1 else None
+        return html.unescape(basic_description) if basic_description and basic_description.count(" ") > 1 else None
     except Exception as e:
         print(e)
         print("Nothing in Google Knowledge")
@@ -192,55 +184,17 @@ def getFamousPersonClues(query):
         print("Nothing in IMDB Person")
 
 
-def getMerriamClues(query):
-    dict_key = "?key=06ecdce1-1712-4c0d-8a41-c84b717372cd"
-    thesaurus_key = "?key=a77064dd-cb30-4dbd-99e3-d18a1c57b090"
-
-    try:
-        response = requests.get(
-            MERRIAM_URL + query + "?key=06ecdce1-1712-4c0d-8a41-c84b717372cd").json()
-        if type(response[0]) is str:
-            return None
-
-        # Past tense verb
-        if 'cxs' in response[0] and response[0]['cxs'][0]['cxl'] == "past tense of":
-            return "past tense of " + response[0]['cxs'][0]['cxtis'][0]['cxt']
-
-        if not response[0]['shortdef'][0]:
-            return None
-
-        clue = ""
-        print(response[0]['fl'])
-
-        # Ex: strum(noun) -> an act, instance, or sound of strumming
-        for alternative_meaning in response:
-            short_def = alternative_meaning['shortdef'][0]
-            if ";" in short_def:
-                short_def = short_def.split(";")[0]
-            words_in_definition = short_def.split()
-            stems = list(map(stemmer.stem, words_in_definition))
-            if query.lower() not in stems:
-                clue = short_def
-                break
-        # Say it if it is an abbreviation
-        abbreviation_text = "(abbreviation) " if response[0]['fl'] == "abbreviation" else ""
-
-        if inflect.plural(normalizeText(response[0]['hwi']['hw'])).upper() == query.upper() and response[0]['fl'] == "noun":
-            # clue = getPluralDescription(clue)
-            clue = clue + " (Plural)"
-
-        return abbreviation_text + clue
-    except Exception as e:
-        print(e)
-
-
 def getOxfordDictionaryClues(query):
     try:
         page = requests.get(OXFORD_URL + query.replace(" ", "_"))
         soup = BeautifulSoup(page.content, 'html.parser')
         desc = soup.select_one("span.ind")
+        headword = soup.select_one(
+            ".breadcrumbs > p:nth-child(1) > a:nth-child(5)").text
         if desc is None:
             return None
+        if isPluralForm(headword, query):
+            return "(Plural) " + desc.text
         return desc.text
     except:
         print("Nothing in Oxford")
@@ -252,10 +206,57 @@ def getGoogleSearchRawClues(query):
     soup = BeautifulSoup(page.content, 'html.parser')
 
 
+def getMerriamClues(query):
+    dict_key = "?key=06ecdce1-1712-4c0d-8a41-c84b717372cd"
+    thesaurus_key = "?key=a77064dd-cb30-4dbd-99e3-d18a1c57b090"
+
+    try:
+        response = requests.get(MERRIAM_URL + query + dict_key).json()
+        if type(response[0]) is str:
+            return None
+
+        # Past tense verb
+        if 'cxs' in response[0] and response[0]['cxs'][0]['cxl'] == "past tense of":
+            return "past tense of " + response[0]['cxs'][0]['cxtis'][0]['cxt']
+
+        if not response[0]['shortdef'][0]:
+            return None
+
+        # If the query is fixed by the dictionary
+        headword = normalizeText(response[0]['hwi']['hw'])
+        if not isPluralForm(headword, query) and not compareWords(query, headword):
+            return None
+
+        clue = ""
+
+        # Find clues that don't contain the word
+        # Ex: strum(noun) -> an act, instance, or sound of strumming
+        for alternative_meaning in response:
+            short_def = alternative_meaning['shortdef'][0]
+            if ";" in short_def:
+                short_def = short_def.split(";")[0]
+            words_in_definition = short_def.split()
+            stems = list(map(stemmer.stem, words_in_definition))
+            if query.lower() not in stems:
+                clue = short_def
+                break
+
+        # Say it if it is an abbreviation
+        abbreviation_text = "(Abbreviation) " if response[0]['fl'] == "abbreviation" else ""
+
+        if isPluralForm(headword, query) and response[0]['fl'] == "noun":
+            # clue = getPluralDescription(clue)
+            clue = "(Plural) " + clue
+
+        return abbreviation_text + clue
+    except Exception as e:
+        print(e)
+
+
 def getAllClues(query):
     def isClueViable(clue):
         # Filter clues that are too long
-        return clue and clue.count(" ") < 25
+        return clue and clue.count(" ") <= 25
 
     if query is None:
         print("Error: Query is None")
@@ -347,7 +348,7 @@ def testSingleWord(query):
 # generateNewClues()
 
 
-print(testSingleWord('TIES'))
+print(testSingleWord("DEUCE"))
 # print(getSuggestions('ILOST'))
 
 # words = ['ADDON',
@@ -376,6 +377,10 @@ print(testSingleWord('TIES'))
 #          'DAY',
 #          'DESUS',
 #          'DEUCE',
+#          'DIGIN',
+#          'DIGIT',
+#          'DIP',
+#          'DIS',
 #          'DOOR',
 #          'DUFF',
 #          'DUSK',
@@ -413,6 +418,8 @@ print(testSingleWord('TIES'))
 #          'INDUS',
 #          'INSUM',
 #          'IOWAN',
+#          'IRIS',
+#          'ISIS',
 #          'JAYZ',
 #          'JOKER',
 #          'KINDA',
@@ -435,6 +442,7 @@ print(testSingleWord('TIES'))
 #          'OVEN',
 #          'PAULO',
 #          'PEATY',
+#          'PIT',
 #          'PITT',
 #          'POPE',
 #          'RAT',
@@ -446,6 +454,9 @@ print(testSingleWord('TIES'))
 #          'SAFER',
 #          'SCRAM',
 #          'SET',
+#          'SIN',
+#          'SIRI',
+#          'SISI',
 #          'SLAG',
 #          'SMH',
 #          'SNORE',
