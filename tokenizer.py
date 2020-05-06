@@ -107,3 +107,6 @@ def filterEloborateDefinitions(text):
 # stemmer = PorterStemmer()
 # print(nltk.pos_tag(['AROSE']))
 # print(stemmer.stem('Arose'))
+
+# "X-Men is an American superhero film series based on the fictional superhero team of the same name, who originally appeared in a series of comic books created by Stan Lee and Jack Kirby and published by Marvel Comics.
+# "

@@ -103,6 +103,7 @@
   .info {
     text-align: end;
     padding: 20px;
+    padding-right: 0;
   }
 </style>
 
@@ -131,7 +132,7 @@
       <div class="clues">
         <div class="clue-section">
           <div class="clue-bar">
-            <h2>Across Clues</h2>
+            <h2>Across</h2>
             {#each value.clues.acrossClues as clue}
               <p>
                 <b>{clue.clueNumber}</b>
@@ -140,7 +141,7 @@
             {/each}
           </div>
           <div class="clue-bar">
-            <h2>Down Clues</h2>
+            <h2>Down</h2>
             {#each value.clues.downClues as clue}
               <p>
                 <b>{clue.clueNumber}</b>
@@ -154,7 +155,7 @@
             Loading new clues...
           {:then value}
             <div class="clue-bar">
-              <h2>New Across Clues</h2>
+              <h2>New Across</h2>
               {#each value.newAcross as clue}
                 <p>
                   <b>{clue.clueNumber}</b>
@@ -163,7 +164,7 @@
               {/each}
             </div>
             <div class="clue-bar">
-              <h2>New Down Clues</h2>
+              <h2>New Down</h2>
               {#each value.newDown as clue}
                 <p>
                   <b>{clue.clueNumber}</b>

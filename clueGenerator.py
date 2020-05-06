@@ -78,7 +78,7 @@ def postprocessClue(original_query, query, clue):
     if isWordInText(query, clue):
         return getNominalDescription(clue, query)
     if inflect.plural(query).upper() == original_query.upper():
-        return clue + " (Plural)"
+        return "(Plural) " + clue
     return clue
 
 
@@ -271,7 +271,7 @@ def getAllClues(query):
     if isClueViable(clue):
         return clue
 
-    print("Merriam:")
+    print("\nMerriam:")
     clue = getMerriamClues(query)
     print(clue)
     if isClueViable(clue):
@@ -348,7 +348,7 @@ def testSingleWord(query):
 # generateNewClues()
 
 
-print(testSingleWord("DEUCE"))
+# print(testSingleWord("CREME"))
 # print(getSuggestions('ILOST'))
 
 # words = ['ADDON',
