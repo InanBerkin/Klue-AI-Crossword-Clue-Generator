@@ -1,7 +1,8 @@
 import flask
 import json
 from flask_cors import CORS, cross_origin
-import clueGenerator
+# import clueGenerator
+from clue.ClueGenerator import getAllClues
 
 app = flask.Flask(__name__)
 cors = CORS(app)
@@ -15,7 +16,8 @@ clues = []
 def helloWorld():
     global clues
     if not clues:
-        clues = clueGenerator.generateNewClues()
+        # clues = clueGenerator.generateNewClues()
+        clues = getAllClues()
     response = json.dumps(clues)
     return response
 

@@ -1,1 +1,92 @@
-{"across":[{"clue":"1A","answer":"DIP"},{"clue":"4A","answer":"SIRI"},{"clue":"5A","answer":"DIGIT"},{"clue":"6A","answer":"ISIS"},{"clue":"7A","answer":"SIN"}],"down":[{"clue":"5D","answer":"DIS"},{"clue":"4D","answer":"SISI"},{"clue":"1D","answer":"DIGIN"},{"clue":"2D","answer":"IRIS"},{"clue":"3D","answer":"PIT"}],"clues":{"acrossClues":[{"clueNumber":"1","clueText":"\"___ Ahead\" (road sign)"},{"clueNumber":"4","clueText":"Assistant who might read you new messages"},{"clueNumber":"5","clueText":"1, 2, 3 or 4"},{"clueNumber":"6","clueText":"Egyptian goddess with a repetitive name"},{"clueNumber":"7","clueText":"Greed, envy or pride"}],"downClues":[{"clueNumber":"1","clueText":"\"Eat up, everybody!\""},{"clueNumber":"2","clueText":"Part of the eye"},{"clueNumber":"3","clueText":"Avocado throwaway"},{"clueNumber":"4","clueText":"Abdel Fattah el-___, president of Egypt since 2014"},{"clueNumber":"5","clueText":"Negative prefix"}]}}
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "DIP"
+        },
+        {
+            "clue": "4A",
+            "answer": "SIRI"
+        },
+        {
+            "clue": "5A",
+            "answer": "DIGIT"
+        },
+        {
+            "clue": "6A",
+            "answer": "ISIS"
+        },
+        {
+            "clue": "7A",
+            "answer": "SIN"
+        }
+    ],
+    "down": [
+        {
+            "clue": "5D",
+            "answer": "DIS"
+        },
+        {
+            "clue": "4D",
+            "answer": "SISI"
+        },
+        {
+            "clue": "1D",
+            "answer": "DIGIN"
+        },
+        {
+            "clue": "2D",
+            "answer": "IRIS"
+        },
+        {
+            "clue": "3D",
+            "answer": "PIT"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "\"___ Ahead\" (road sign)"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Assistant who might read you new messages"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "1, 2, 3 or 4"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Egyptian goddess with a repetitive name"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Greed, envy or pride"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "\"Eat up, everybody!\""
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Part of the eye"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Avocado throwaway"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Abdel Fattah el-___, president of Egypt since 2014"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Negative prefix"
+            }
+        ]
+    }
+}

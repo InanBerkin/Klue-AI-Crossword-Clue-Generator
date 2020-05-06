@@ -200,12 +200,6 @@ def getOxfordDictionaryClues(query):
         print("Nothing in Oxford")
 
 
-def getGoogleSearchRawClues(query):
-    page = requests.get(
-        "https://www.imdb.com/search/title/?title="+query+"&title_type=feature&user_rating=7.5,&num_votes=20000,&languages=en")
-    soup = BeautifulSoup(page.content, 'html.parser')
-
-
 def getMerriamClues(query):
     dict_key = "?key=06ecdce1-1712-4c0d-8a41-c84b717372cd"
     thesaurus_key = "?key=a77064dd-cb30-4dbd-99e3-d18a1c57b090"
@@ -348,7 +342,7 @@ def testSingleWord(query):
 # generateNewClues()
 
 
-# print(testSingleWord("CREME"))
+print(testSingleWord("INAPP"))
 # print(getSuggestions('ILOST'))
 
 # words = ['ADDON',

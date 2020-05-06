@@ -32,21 +32,23 @@ def tree2text(tree):
 
 def getPluralDescription(text):
     tokens = nltk.word_tokenize(text)
-    tokens = [w for w in tokens if not w.lower() in ['a', 'an']]
     tagged = nltk.pos_tag(tokens)
 
     chunk_rule = ChunkRule("<DT>?<JJ.?>?<NN>+", "Chunk nouns with determiner")
     chink_rule = ChinkRule("<DT>", "Remove Determiner")
 
     chunk_parser = RegexpChunkParser(
-        [chunk_rule], chunk_label="Singular Noun")
+        [chunk_rule, chink_rule], chunk_label="Singular Description")
     chunked = chunk_parser.parse(tagged, trace=True)
 
-    for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Singular Noun'):
+    for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Singular Description'):
         subtree[-1:] = [(inflect.plural(subtree[-1][0]), "Plural")]
         break
 
-    return tree2text(chunked)
+    tokens = nltk.word_tokenize(tree2text(chunked))
+    tokens = [w for w in tokens if not w.lower() in ['a', 'an']]
+
+    return " ".join(tokens)
 
 
 def getNominalDescription(text, subject):
@@ -64,11 +66,13 @@ def getNominalDescription(text, subject):
     chunk_parser = RegexpChunkParser(
         [chunk_rule, chink_rule], chunk_label="Nominal")
 
-    chunked = chunk_parser.parse(tagged, trace=True)
+    chunked = chunk_parser.parse(tagged)
     subtrees = list(chunked.subtrees(filter=lambda t: t.label() == 'Nominal'))
+
     if not subtrees:
         return None
 
+    print("Converting to nominal form")
     if len(subtrees) < 2:
         return tree2text(subtrees[0])
 
@@ -81,34 +85,15 @@ def getNominalDescription(text, subject):
     #     return tree2text(subtree)
 
 
-def filterEloborateDefinitions(text):
-    # Descriptions with "that, which"
-    tokens = nltk.word_tokenize(text)
-    tagged = nltk.pos_tag(tokens)
-    # print([tag[1] for tag in tagged])
-    has_whdeterminer = "WDT" in [tag[1] for tag in tagged]
-
-    if not has_whdeterminer:
-        return text
-
-    chunk_rule = ChunkRule("<.*>*<WDT>", "Description")
-    chink_rule = ChinkRule("<WDT>", "Remove wh-determiner")
-
-    chunk_parser = RegexpChunkParser(
-        [chunk_rule, chink_rule], chunk_label="Description")
-
-    chunked = chunk_parser.parse(tagged, trace=True)
-
-    for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Description'):
-        return tree2text(subtree)
-
-
 # text = "A large southern constellation (the ship Argo), which is now divided into the constellations Carina, Puppis, and Vela."
 # print(getNominalDescription(text, 'ARGO'))
 # print(compareWords("X-Men", 'XMEN'))
 # stemmer = PorterStemmer()
-# print(nltk.pos_tag(['AROSE']))
-# print(stemmer.stem('Arose'))
+# tokens = nltk.word_tokenize("Four legged animal and loves bone")
+# tagged = nltk.pos_tag(tokens)
+# print(tagged)
+# print(getPluralDescription(
+#     'a hanging screen usually capable of being drawn back or up'))
 
 # "X-Men is an American superhero film series based on the fictional superhero team of the same name, who originally appeared in a series of comic books created by Stan Lee and Jack Kirby and published by Marvel Comics.
 # "
