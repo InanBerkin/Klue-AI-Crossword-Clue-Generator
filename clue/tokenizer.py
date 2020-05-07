@@ -61,7 +61,7 @@ def getNominalDescription(text, subject):
             tagged[i] = (subject, "SUB")
 
     chunk_rule = ChunkRule("<SUB><.*>*", "Subject Description")
-    chink_rule = ChinkRule("<VB.*><DT>", "Split by the determiner")
+    chink_rule = ChinkRule("<VBZ><DT>", "Split by the determiner")
 
     chunk_parser = RegexpChunkParser(
         [chunk_rule, chink_rule], chunk_label="Nominal")
@@ -73,7 +73,7 @@ def getNominalDescription(text, subject):
         return None
 
     print("Converting to nominal form")
-    if len(subtrees) < 2:
+    if len(subtrees) < 2 and len(subtrees[0]) > 2:
         return tree2text(subtrees[0])
 
     # Ex: Cadbury Creme Egg -> Cadbury ____ Egg
@@ -85,15 +85,4 @@ def getNominalDescription(text, subject):
     #     return tree2text(subtree)
 
 
-# text = "A large southern constellation (the ship Argo), which is now divided into the constellations Carina, Puppis, and Vela."
-# print(getNominalDescription(text, 'ARGO'))
-# print(compareWords("X-Men", 'XMEN'))
-# stemmer = PorterStemmer()
-# tokens = nltk.word_tokenize("Four legged animal and loves bone")
-# tagged = nltk.pos_tag(tokens)
-# print(tagged)
-# print(getPluralDescription(
-#     'a hanging screen usually capable of being drawn back or up'))
-
-# "X-Men is an American superhero film series based on the fictional superhero team of the same name, who originally appeared in a series of comic books created by Stan Lee and Jack Kirby and published by Marvel Comics.
-# "
+# print(getNominalDescription("Ethos is a Greek word meaning 'character' that is used to describe the guiding beliefs or ideals that characterize a community, nation, or ideology", "ETHOS"))

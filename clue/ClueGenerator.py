@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from clue.util import isWordInText
 from clue.util import hideOriginalQuery
 from clue.util import prettyPrint
-from tokenizer import getNominalDescription
+from clue.tokenizer import getNominalDescription
 from nltk.stem.snowball import *
 import requests
 stemmer = SnowballStemmer("english")
@@ -85,6 +85,7 @@ class ClueGenerator():
         source = "knowledge"
         definition = getGoogleKnowledgeClues(query)
         if definition:
+            print("Making", definition[:10], "...nominal form")
             nominal_form = getNominalDescription(definition, query)
             if nominal_form:
                 self.definitions.add((nominal_form, source))
@@ -115,7 +116,10 @@ class ClueGenerator():
     def preprocessDefinitions(self):
         for definition in self.definitions:
             definition_text, source = definition[0], definition[1]
-            if definition_text.count(" ") < MAX_WORD_COUNT and not isWordInText(self.original_query, definition_text):
+            if ";" in definition_text:
+                definition_text = definition_text.split(
+                    ";")[1].strip().replace(".", "")
+            if definition_text.count(" ") < MAX_WORD_COUNT and self.original_query not in definition_text.upper():
                 self.new_clues.append((definition_text, "definition", source))
 
     def preprocessSynonyms(self):
@@ -132,6 +136,9 @@ class ClueGenerator():
 
     def getBestClue(self):
         if len(self.new_clues) != 0:
+            print("\nAll Clues for", self.original_query)
+            prettyPrint(self.new_clues)
+            print()
             return self.new_clues[0][0]
         else:
             print(f"Error: No clue found for {self.original_query}")
@@ -140,11 +147,11 @@ class ClueGenerator():
     def sortNewClues(self):
         sourceSorting = [
             "imdb",
-            "wordnet",
-            "mw",
             "oxford",
+            "mw",
+            "wordnet",
+            "knowledge",
             "muse",
-            "knowledge"
         ]
 
         categorySorting = [
@@ -157,7 +164,9 @@ class ClueGenerator():
 
         try:
             self.new_clues = sorted(self.new_clues, key=lambda x: (
-                sourceSorting.index(x[2]), categorySorting.index(x[1])))
+                sourceSorting.index(x[2]), len(
+                    x[0]), categorySorting.index(x[1])
+            ))
         except Exception as e:
             print(e)
             print("Error while sorting")
@@ -189,10 +198,10 @@ def getAllClues():
         original_query = data['answer']
         print("Searching clue for", original_query)
         best_clue = getClue(original_query)
-        result.append((None, best_clue, data['clue']))
+        result.append((original_query, best_clue, data['clue']))
 
     return result
 
 
-print(getClue("ISIS"))
+# print(getClue("ISIS"))
 # prettyPrint(getAllClues())

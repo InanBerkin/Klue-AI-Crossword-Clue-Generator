@@ -70,7 +70,6 @@
   .grid {
     display: inline-block;
     height: 100%;
-    width: 50%;
     text-align: center;
     margin-top: 16px;
     margin-right: 100px;
@@ -152,7 +151,7 @@
         </div>
         <div class="clue-section">
           {#await newClues}
-            Loading new clues...
+            <h2>Loading new clues...</h2>
           {:then value}
             <div class="clue-bar">
               <h2>New Across</h2>

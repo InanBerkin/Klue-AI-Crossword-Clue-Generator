@@ -2,7 +2,8 @@ import requests
 from nltk.stem.porter import *
 from clue.util import normalizeText
 from clue.util import isPluralForm
-from tokenizer import getPluralDescription
+from clue.util import compareWords
+from clue.tokenizer import getPluralDescription
 
 DICT_KEY = "f8a91591-5926-41b2-bd54-cb5ae3a13acd"
 THESAURUS_KEY = "a77064dd-cb30-4dbd-99e3-d18a1c57b090"
@@ -13,13 +14,16 @@ def getClueWithNoQuery(query, definitions):
     # Find clues that don't contain the original word
     # Ex: strum(noun) -> an act, instance, or sound of strumming
     for alternative_definition in definitions:
-        short_def = alternative_definition['shortdef'][0]
-        if ";" in short_def:
-            short_def = short_def.split(";")[0]
-        words_in_definition = short_def.split()
-        stems = list(map(stemmer.stem, words_in_definition))
-        if query.lower() not in stems:
-            return short_def
+        defs = alternative_definition['shortdef']
+        for short_def in defs:
+            if ";" in short_def:
+                short_def = short_def.split(";")[1]
+            words_in_definition = short_def.split()
+            stems = list(map(stemmer.stem, words_in_definition))
+            headword = normalizeText(alternative_definition['hwi']['hw'])
+            if stemmer.stem(query.lower()) not in stems and compareWords(stemmer.stem(query), headword):
+                return (short_def, headword, alternative_definition['fl'])
+    return(None, None, None)
 
 
 def getMerriamDictionaryClues(query):
@@ -42,37 +46,18 @@ def getMerriamDictionaryClues(query):
     if not jsonResponse[0]['shortdef']:
         return None
 
-    clue = getClueWithNoQuery(query, jsonResponse)
-    headword = normalizeText(jsonResponse[0]['hwi']['hw'])
+    jsonResponse = sorted(jsonResponse, reverse=True,
+                          key=lambda x: (x['fl'][0]))
 
-    if isPluralForm(headword, query):
+    clue, headword, pos_tag = getClueWithNoQuery(query, jsonResponse)
+    if clue is None:
+        return None
+    if isPluralForm(headword, query) and pos_tag == "noun":
         clue = getPluralDescription(clue)
+    elif isPluralForm(headword, query) and pos_tag == "verb":
+        clue = "3rd person present: " + getPluralDescription(clue)
     # Say it if it is an abbreviation
     elif jsonResponse[0]['fl'] == "abbreviation":
         clue = "Abbreviation of " + clue
 
     return clue
-
-
-def findFromMWThesaurus(word):
-    response = requests.get(
-        f"https://dictionaryapi.com/api/v3/references/thesaurus/json/{word}",
-        params={
-            "key": THESAURUS_KEY
-        }
-    )
-
-    jsonResponse = response.json()
-    if len(jsonResponse) != 0:
-        try:
-            synonym = jsonResponse[0]["meta"]["syns"][0][0]
-        except Exception:
-            synonym = None
-        try:
-            antonym = jsonResponse[0]["meta"]["ants"][0][0]
-        except Exception:
-            antonym = None
-
-        return synonym, antonym
-    else:
-        return None, None

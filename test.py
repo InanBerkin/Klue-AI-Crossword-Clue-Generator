@@ -1,3 +1,5 @@
-from clue.ClueGenerator import getAllClues
+from clue.ClueGenerator import *
+import json
 
-getAllClues()
+# print(json.dumps(getAllClues(), indent=2))
+print(getClue("ETHOS"))

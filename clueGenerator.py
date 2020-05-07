@@ -339,10 +339,10 @@ def testSingleWord(query):
     return((original_query, altered_query, processed_clue))
 
 
-# generateNewClues()
+generateNewClues()
 
 
-print(testSingleWord("INAPP"))
+# print(testSingleWord("INAPP"))
 # print(getSuggestions('ILOST'))
 
 # words = ['ADDON',
