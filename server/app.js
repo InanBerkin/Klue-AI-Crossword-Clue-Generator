@@ -6,7 +6,7 @@ let result = null;
 let day = new Date().getDay();
 
 (async () => {
-    if (result == null || day !== new Date().getDay()) {
+    if (result == null) {
         result = await scraper();
     }
 })();

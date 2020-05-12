@@ -26,7 +26,7 @@ async function revealPuzzle(page) {
     // Click on the initial popup and then click on the reveal button
     await (await page.$('button[aria-label="OK"]')).click();
     await (await page.$('button[aria-label="reveal"]')).click();
-    const [button] = await page.$x("//*[@id='root']/div/div/div[4]/div/main/div[2]/div/div/ul/div[2]/li[2]/ul/li[3]");
+    const button = await page.waitForSelector("#root > div > div > div.app-mainContainer--3CJGG > div > main > div.layout > div > div > ul > div.Toolbar-expandedMenu--2s4M4 > li.Tool-button--39W4J.Tool-tool--Fiz94.Tool-texty--2w4Br.Tool-open--1Moaq > ul > li:nth-child(3) > a");
     if (button) {
         button.click();
     }

@@ -9,9 +9,7 @@ from clue.util import isWordInText
 from clue.util import hideOriginalQuery
 from clue.util import prettyPrint
 from clue.tokenizer import getNominalDescription
-from nltk.stem.snowball import *
 import requests
-stemmer = SnowballStemmer("english")
 
 MAX_WORD_COUNT = 25
 
@@ -38,7 +36,6 @@ class ClueGenerator():
         self.searchMerriamDictionary(query)
         run_io_tasks_in_parallel([
             lambda: self.searchImdb(query),
-            # lambda: self.searchMerriamDictionary(query),
             lambda: self.searchGoogleKnowledge(query),
             lambda: self.searchMusenet(query),
             lambda: self.searchOxfordDictionary(query),
@@ -51,7 +48,6 @@ class ClueGenerator():
     def generateSuggestions(self):
         suggestions = set()
         query = self.original_query
-        suggestions.add(stemmer.stem(query).upper())
         suggestions.add(query[:1] + " " + query[1:])
         suggestions.add(query[:1] + "-" + query[1:])
         suggestions.add(query[:2] + " " + query[2:])
@@ -85,7 +81,7 @@ class ClueGenerator():
         source = "knowledge"
         definition = getGoogleKnowledgeClues(query)
         if definition:
-            print("Making", definition[:10], "...nominal form")
+            print("Making (", definition[:10], ") ...nominal form")
             nominal_form = getNominalDescription(definition, query)
             if nominal_form:
                 self.definitions.add((nominal_form, source))
@@ -198,7 +194,7 @@ def getAllClues():
         original_query = data['answer']
         print("Searching clue for", original_query)
         best_clue = getClue(original_query)
-        result.append((original_query, best_clue, data['clue']))
+        result.append((original_query, best_clue.capitalize(), data['clue']))
 
     return result
 

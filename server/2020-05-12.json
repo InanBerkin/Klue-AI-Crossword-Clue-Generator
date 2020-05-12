@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "PJS"
+        },
+        {
+            "clue": "4A",
+            "answer": "DIAL"
+        },
+        {
+            "clue": "5A",
+            "answer": "FUZZY"
+        },
+        {
+            "clue": "6A",
+            "answer": "RAZZ"
+        },
+        {
+            "clue": "7A",
+            "answer": "OLAY"
+        }
+    ],
+    "down": [
+        {
+            "clue": "5D",
+            "answer": "FRO"
+        },
+        {
+            "clue": "4D",
+            "answer": "DUAL"
+        },
+        {
+            "clue": "1D",
+            "answer": "PIZZA"
+        },
+        {
+            "clue": "2D",
+            "answer": "JAZZY"
+        },
+        {
+            "clue": "3D",
+            "answer": "SLY"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Outfit worn with slippers"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Face of a watch"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Like the insides of comfy slippers"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "Make fun of"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Skin care brand whose name sounds like an exclamation"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Food with Chicago and New York varieties"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Like much of the music in \"La La Land\""
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Mischievous"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Consisting of two parts"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "To and ___"
+            }
+        ]
+    }
+}
