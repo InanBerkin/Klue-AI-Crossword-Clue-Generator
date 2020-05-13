@@ -6,7 +6,7 @@ inflect = inflect.engine()
 
 
 def normalizeText(text):
-    text = re.sub("[^a-zA-Z0-9_\- ]", "", text)
+    # text = re.sub("[^a-zA-Z0-9_\- ]", "", text)
     return re.sub("  ", " ", text)
 
 

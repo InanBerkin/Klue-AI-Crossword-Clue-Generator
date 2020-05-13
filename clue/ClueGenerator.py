@@ -1,7 +1,7 @@
 from clue.getMerriamClues import getMerriamDictionaryClues
 from clue.getMovieClues import getMovieClues
 from clue.getGoogleKnowledgeClues import getGoogleKnowledgeClues
-from clue.getMusenetClues import getMusenetClues
+from clue.getThesaurusClues import getThesaurusClues
 from clue.getWordnetClues import getWordnetClues
 from clue.getOxfordDictionaryClues import getOxfordDictionaryClues
 from concurrent.futures import ThreadPoolExecutor
@@ -9,9 +9,10 @@ from clue.util import isWordInText
 from clue.util import hideOriginalQuery
 from clue.util import prettyPrint
 from clue.tokenizer import getNominalDescription
+from clue.tokenizer import filterMultipleMeanings
 import requests
 
-MAX_WORD_COUNT = 25
+MAX_WORD_COUNT = 15
 
 
 def run_io_tasks_in_parallel(tasks):
@@ -34,10 +35,10 @@ class ClueGenerator():
         if query is None:
             query = self.original_query
         self.searchMerriamDictionary(query)
+        self.searchThesaurus(query)
         run_io_tasks_in_parallel([
             lambda: self.searchImdb(query),
             lambda: self.searchGoogleKnowledge(query),
-            lambda: self.searchMusenet(query),
             lambda: self.searchOxfordDictionary(query),
         ])
         print("Finished getting clues")
@@ -81,22 +82,21 @@ class ClueGenerator():
         source = "knowledge"
         definition = getGoogleKnowledgeClues(query)
         if definition:
-            print("Making (", definition[:10], ") ...nominal form")
-            nominal_form = getNominalDescription(definition, query)
-            if nominal_form:
-                self.definitions.add((nominal_form, source))
-            else:
-                self.definitions.add((definition, source))
+            self.definitions.add((definition, source))
 
-    def searchMusenet(self, query):
-        print("Searching Musenet")
-        synonym = getMusenetClues(query)
+    def searchThesaurus(self, query):
+        print("Searching MW Thesaurus")
+        synonym, antonym = getThesaurusClues(query)
         if synonym:
-            self.synonyms.add((synonym, 'muse'))
+            self.synonyms.add((synonym, 'mw'))
+        if antonym:
+            self.antonyms.add((antonym, 'mw'))
 
     def searchWordnet(self, query):
         source = "wordnet"
-        antonym, definition, example_sentence = getWordnetClues(query)
+        synonym, antonym, definition, example_sentence = getWordnetClues(query)
+        if synonym:
+            self.synonyms.add((antonym, source))
         if antonym:
             self.antonyms.add((antonym, source))
         if definition:
@@ -115,20 +115,30 @@ class ClueGenerator():
             if ";" in definition_text:
                 definition_text = definition_text.split(
                     ";")[1].strip().replace(".", "")
+            print("Making (", definition_text[:10], ") ...nominal form")
+            nominal_form = getNominalDescription(
+                definition_text, self.original_query)
+            if nominal_form:
+                definition_text = nominal_form
             if definition_text.count(" ") < MAX_WORD_COUNT and self.original_query not in definition_text.upper():
                 self.new_clues.append((definition_text, "definition", source))
 
     def preprocessSynonyms(self):
         for synonym in self.synonyms:
             synonym, source = synonym[0], synonym[1]
-            clue = "Similiar to " + synonym.lower()
+            clue = synonym.lower()
             self.new_clues.append((clue, "synonym", source))
 
     def preprocessAntonyms(self):
         for antonym in self.antonyms:
             antonym, source = antonym[0], antonym[1]
             clue = "Opposite of " + antonym.lower()
-            self.new_clues.append((clue, "synonym", source))
+            self.new_clues.append((clue, "antonym", source))
+
+    def postprocessClue(self):
+        for i, clue in enumerate(self.new_clues):
+            self.new_clues[i] = [
+                filterMultipleMeanings(clue[0]), clue[1], clue[2]]
 
     def getBestClue(self):
         if len(self.new_clues) != 0:
@@ -147,7 +157,6 @@ class ClueGenerator():
             "mw",
             "wordnet",
             "knowledge",
-            "muse",
         ]
 
         categorySorting = [
@@ -159,9 +168,9 @@ class ClueGenerator():
         ]
 
         try:
+            self.postprocessClue()
             self.new_clues = sorted(self.new_clues, key=lambda x: (
-                sourceSorting.index(x[2]), len(
-                    x[0]), categorySorting.index(x[1])
+                sourceSorting.index(x[2]), categorySorting.index(x[1])
             ))
         except Exception as e:
             print(e)
@@ -173,14 +182,14 @@ def getClue(query):
     clueGenerator = ClueGenerator(query)
     best_clue = clueGenerator.generateNewClues()
     if best_clue:
-        return best_clue
+        return best_clue.capitalize()
     else:
         suggestions = clueGenerator.generateSuggestions()
         for suggestion in suggestions:
             clueGenerator = ClueGenerator(suggestion)
             best_clue = clueGenerator.generateNewClues()
             if best_clue:
-                return best_clue
+                return best_clue.capitalize()
 
 
 def getAllClues():
@@ -194,7 +203,11 @@ def getAllClues():
         original_query = data['answer']
         print("Searching clue for", original_query)
         best_clue = getClue(original_query)
-        result.append((original_query, best_clue.capitalize(), data['clue']))
+        if best_clue:
+            result.append(
+                (original_query, best_clue.capitalize(), data['clue']))
+        else:
+            result.append((original_query, 'No Clue', data['clue']))
 
     return result
 

@@ -41,21 +41,21 @@ def getMerriamDictionaryClues(query):
 
     # Past tense verb
     if 'cxs' in jsonResponse[0] and jsonResponse[0]['cxs'][0]['cxl'] == "past tense of":
-        return "past tense of " + jsonResponse[0]['cxs'][0]['cxtis'][0]['cxt']
+        return "Past tense of " + jsonResponse[0]['cxs'][0]['cxtis'][0]['cxt']
 
     if not jsonResponse[0]['shortdef']:
         return None
 
-    jsonResponse = sorted(jsonResponse, reverse=True,
-                          key=lambda x: (x['fl'][0]))
+    clue = jsonResponse[0]['shortdef'][0]
+    headword = normalizeText(jsonResponse[0]['hwi']['hw'])
+    pos_tag = jsonResponse[0]['fl']
 
-    clue, headword, pos_tag = getClueWithNoQuery(query, jsonResponse)
     if clue is None:
         return None
     if isPluralForm(headword, query) and pos_tag == "noun":
         clue = getPluralDescription(clue)
     elif isPluralForm(headword, query) and pos_tag == "verb":
-        clue = "3rd person present: " + getPluralDescription(clue)
+        clue = "3rd person present: " + clue
     # Say it if it is an abbreviation
     elif jsonResponse[0]['fl'] == "abbreviation":
         clue = "Abbreviation of " + clue

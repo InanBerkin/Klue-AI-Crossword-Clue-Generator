@@ -1,35 +1,23 @@
 <script>
   import Cell from "./Cell.svelte";
-  import { onMount } from "svelte";
   let cwData = getData();
   let newClues = getNewClues();
   let currentTime = new Date().toLocaleString();
 
-  onMount(() => {
-    const interval = setInterval(() => {
-      currentTime = new Date().toLocaleString();
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  });
-
   async function getData() {
     let response = await fetch(`http://localhost:3000`);
     let text = await response.json();
+    console.log(text);
     return text;
   }
 
   async function getNewClues() {
-    let response = await fetch(`http://localhost:5000`);
+    let response = await fetch(`http://localhost:3001`);
     let clues = await response.json();
     let filtered_clues = clues.map(item => ({
       position: item[2],
       clue: item[1]
     }));
-
-    console.log(clues);
 
     let newAcross = [];
     let newDown = [];
@@ -47,9 +35,8 @@
         });
       }
     });
-    newDown.sort((a, b) => a.clueNumber - b.clueNumber);
-    console.log(newDown);
 
+    newDown.sort((a, b) => a.clueNumber - b.clueNumber);
     return { newAcross, newDown };
   }
 </script>
@@ -124,7 +111,7 @@
           </div>
         {/each}
         <div class="info">
-          <p>Team Name: KLUE</p>
+          <p>KLUE</p>
           <p>{currentTime}</p>
         </div>
       </div>

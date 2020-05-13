@@ -1,0 +1,92 @@
+{
+    "across": [
+        {
+            "clue": "1A",
+            "answer": "DRAG"
+        },
+        {
+            "clue": "5A",
+            "answer": "JUNE"
+        },
+        {
+            "clue": "6A",
+            "answer": "SIGNS"
+        },
+        {
+            "clue": "8A",
+            "answer": "NERO"
+        },
+        {
+            "clue": "9A",
+            "answer": "SLED"
+        }
+    ],
+    "down": [
+        {
+            "clue": "1D",
+            "answer": "DJS"
+        },
+        {
+            "clue": "2D",
+            "answer": "RUINS"
+        },
+        {
+            "clue": "3D",
+            "answer": "ANGEL"
+        },
+        {
+            "clue": "4D",
+            "answer": "GENRE"
+        },
+        {
+            "clue": "7D",
+            "answer": "SOD"
+        }
+    ],
+    "clues": {
+        "acrossClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Puff of a cigarette"
+            },
+            {
+                "clueNumber": "5",
+                "clueText": "Pride Month"
+            },
+            {
+                "clueNumber": "6",
+                "clueText": "They're learned for a learner's permit exam"
+            },
+            {
+                "clueNumber": "8",
+                "clueText": "Emperor during the Great Fire of Rome"
+            },
+            {
+                "clueNumber": "9",
+                "clueText": "What Calvin and Hobbes ride in the final \"Calvin and Hobbes\" strip"
+            }
+        ],
+        "downClues": [
+            {
+                "clueNumber": "1",
+                "clueText": "Electronica musicians, for short"
+            },
+            {
+                "clueNumber": "2",
+                "clueText": "Machu Picchu or Angkor Wat"
+            },
+            {
+                "clueNumber": "3",
+                "clueText": "Member of a pro baseball team acquired by Disney in 1996"
+            },
+            {
+                "clueNumber": "4",
+                "clueText": "Movie classification"
+            },
+            {
+                "clueNumber": "7",
+                "clueText": "Roll of grass"
+            }
+        ]
+    }
+}

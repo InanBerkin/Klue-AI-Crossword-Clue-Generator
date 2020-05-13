@@ -11,6 +11,8 @@ def getWordnetClues(query):
         synset = synsets[0]
         lemma = synset.lemmas()[0]
 
+        if lemma.hypernyms():
+            synonym = synset.hypernyms()[0].lemmas()[0].name()
         if lemma.antonyms():
             antonym = lemma.antonyms()[0].name()
         if synset.definition():
@@ -18,4 +20,4 @@ def getWordnetClues(query):
         if synset.examples():
             example_sentence = synset.examples()[0]
 
-    return antonym, definition, example_sentence
+    return synonym, antonym, definition, example_sentence

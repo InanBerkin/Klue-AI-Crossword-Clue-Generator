@@ -1,4 +1,5 @@
 import nltk
+from clue.util import *
 from nltk.chunk import *
 from nltk.chunk.regexp import *
 import re
@@ -52,6 +53,9 @@ def getPluralDescription(text):
 
 
 def getNominalDescription(text, subject):
+    if not isWordInText(subject, text):
+        return text
+    # text = text.split(",")[0]
     tokens = nltk.word_tokenize(text)
     # tokens = [w for w in tokens if not w.lower() in ['is', 'a']]
     tagged = nltk.pos_tag(tokens)
@@ -61,7 +65,7 @@ def getNominalDescription(text, subject):
             tagged[i] = (subject, "SUB")
 
     chunk_rule = ChunkRule("<SUB><.*>*", "Subject Description")
-    chink_rule = ChinkRule("<VBZ><DT>", "Split by the determiner")
+    chink_rule = ChinkRule("<VB(Z|D)><DT>", "Split by the determiner")
 
     chunk_parser = RegexpChunkParser(
         [chunk_rule, chink_rule], chunk_label="Nominal")
@@ -72,7 +76,6 @@ def getNominalDescription(text, subject):
     if not subtrees:
         return None
 
-    print("Converting to nominal form")
     if len(subtrees) < 2 and len(subtrees[0]) > 2:
         return tree2text(subtrees[0])
 
@@ -81,8 +84,18 @@ def getNominalDescription(text, subject):
         return hideOriginalQuery(subject, " ".join([tag[0] for tag in tagged]))
     else:
         return tree2text(subtrees[1])
-    # for subtree in chunked.subtrees(filter=lambda t: t.label() == 'Nominal'):
-    #     return tree2text(subtree)
 
 
-# print(getNominalDescription("Ethos is a Greek word meaning 'character' that is used to describe the guiding beliefs or ideals that characterize a community, nation, or ideology", "ETHOS"))
+def filterMultipleMeanings(text):
+    text = text.rsplit(" or ", 1)
+    text.sort(key=len, reverse=True)
+    description = text[0]
+    if description[-1] == ',':
+        description = description[:-1]
+    return(description.strip())
+
+
+# print(filterMultipleMeanings("Having or showing a cunning and deceitful nature"))
+# print(getNominalDescription(
+#     "Nero was the last Roman emperor of the Julio-Claudian dynasty.", "NERO"))
+# print(nltk.pos_tag(["OR"]))
