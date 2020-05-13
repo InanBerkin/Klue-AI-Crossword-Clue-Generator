@@ -1,0 +1,120 @@
+Searching clue for CASE
+Searching Merriam Webster Dictionary
+Searching MW Thesaurus
+Searching IMDB
+Searching Google Knowledge
+Searching Oxford Dictionary
+Finished getting clues
+Making ( an example of someth ...) nominal form
+Making ( a set of circumstanc ...) nominal form
+Making ( Casey Austin Keenum  ...) nominal form
+Making ( an occurrence of som ...) nominal form
+
+All Clues for CASE
+[
+  [
+    "The Curious ____ of Benjamin Button (2008), Directed by David Fincher",
+    "movie",
+    "imdb"
+  ],
+  [
+    "an example of something occurring",
+    "definition",
+    "oxford"
+  ],
+  [
+    "a set of circumstances",
+    "definition",
+    "mw"
+  ],
+  [
+    "armor",
+    "synonym",
+    "mw"
+  ],
+  [
+    "an occurrence of something",
+    "definition",
+    "wordnet"
+  ]
+]
+
+Searching clue for FORTY
+Searching Merriam Webster Dictionary
+Searching MW Thesaurus
+Searching IMDB
+Searching Google Knowledge
+Searching Oxford Dictionary
+Finished getting clues
+Making ( The Forty Rules of L ...) nominal form
+Making ( ten less than fifty ...) nominal form
+Making ( a number equal to fo ...) nominal form
+Making ( the cardinal number  ...) nominal form
+
+All Clues for FORTY
+[
+  [
+    "ten less than fifty",
+    "definition",
+    "oxford"
+  ],
+  [
+    "a number equal to four times 10",
+    "definition",
+    "mw"
+  ],
+  [
+    "catnap",
+    "synonym",
+    "mw"
+  ],
+  [
+    "the cardinal number that is the product of ten and four",
+    "definition",
+    "wordnet"
+  ]
+]
+
+Searching clue for AMORE
+Searching Merriam Webster Dictionary
+Searching MW Thesaurus
+Searching IMDB
+Searching Google Knowledge
+Searching Oxford Dictionary
+Nothing in Oxford
+Finished getting clues
+Making ( Song by Mari Kraimbr ...) nominal form
+Making ( with love, devotion, ...) nominal form
+
+All Clues for AMORE
+[
+  [
+    "with love, devotion",
+    "definition",
+    "mw"
+  ],
+  [
+    "Song by Mari Kraimbrery",
+    "definition",
+    "knowledge"
+  ]
+]
+
+Searching clue for DESUS
+Searching Merriam Webster Dictionary
+Searching MW Thesaurus
+Searching IMDB
+Searching Google Knowledge
+Searching Oxford Dictionary
+Nothing in Oxford
+Finished getting clues
+Making ( Desus & Mero is an A ...) nominal form
+
+All Clues for DESUS
+[
+  [
+    "____ & Mero is an American television late-night talk show series hosted by comedians ____ Nice and The Kid Mero",
+    "definition",
+    "knowledge"
+  ]
+]

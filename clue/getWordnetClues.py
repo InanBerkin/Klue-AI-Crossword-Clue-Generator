@@ -3,7 +3,7 @@ from nltk.corpus import wordnet as wn
 
 
 def getWordnetClues(query):
-    antonym, definition, example_sentence = None, None, None
+    synonym, antonym, definition, example_sentence = None, None, None, None
     # nltk.download("wordnet", quiet=True)
 
     synsets = wn.synsets(query)

@@ -34,5 +34,4 @@ def isWordInText(word, text):
 
 
 def hideOriginalQuery(query, sentence):
-    return re.sub(
-        '(?i)' + query, '____', sentence)
+    return re.sub(query, '____', sentence)

@@ -23,7 +23,7 @@ def hideOriginalQuery(query, sentence):
 
 
 def normalizeText(text):
-    text = re.sub("[^a-zA-Z0-9_\- ]", "", text)
+    # text = re.sub("[^a-zA-Z0-9_\- ]", "", text)
     return re.sub("  ", " ", text)
 
 
@@ -82,8 +82,10 @@ def getNominalDescription(text, subject):
     # Ex: Cadbury Creme Egg -> Cadbury ____ Egg
     if len(subtrees[0]) > 1:
         return hideOriginalQuery(subject, " ".join([tag[0] for tag in tagged]))
-    else:
+    elif len(subtrees) == 2:
         return tree2text(subtrees[1])
+    else:
+        return None
 
 
 def filterMultipleMeanings(text):
@@ -93,9 +95,3 @@ def filterMultipleMeanings(text):
     if description[-1] == ',':
         description = description[:-1]
     return(description.strip())
-
-
-# print(filterMultipleMeanings("Having or showing a cunning and deceitful nature"))
-# print(getNominalDescription(
-#     "Nero was the last Roman emperor of the Julio-Claudian dynasty.", "NERO"))
-# print(nltk.pos_tag(["OR"]))

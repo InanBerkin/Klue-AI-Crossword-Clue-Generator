@@ -6,7 +6,7 @@ const url = "https://www.nytimes.com/crosswords/game/mini";
 async function getCrosswordData() {
     try {
         const browser = await puppeteer.launch({
-            headless: true
+            headless: false
         })
         const page = await browser.newPage()
         await page.setViewport({ width: 1366, height: 768 });
@@ -76,49 +76,5 @@ async function getClues(page) {
     }));
     return { acrossClues, downClues };
 }
-
-// (async () => {
-//     let { answers, clues } = await getCrosswordData();
-//     const GRID_SIZE = 5;
-//     let across = [];
-//     let down = [];
-
-//     for (let i = 0; i < GRID_SIZE; i++) {
-//         let answer = "";
-//         let clue = null;
-//         for (let j = 0; j < GRID_SIZE; j++) {
-//             block = answers[i][j];
-//             if (block != null) {
-//                 answer += block.letter;
-//                 if (clue == null && block.num != null) {
-//                     clue = block.num + "A";
-//                 }
-//             }
-//         }
-//         across.push({ clue, answer })
-//     }
-
-//     for (let i = 0; i < GRID_SIZE; i++) {
-//         let answer = "";
-//         let clue = null;
-//         for (let j = 0; j < GRID_SIZE; j++) {
-//             block = answers[j][i];
-//             if (block != null) {
-//                 answer += block.letter;
-//                 if (clue == null && block.num != null) {
-//                     clue = block.num + "D";
-//                 }
-//             }
-//         }
-//         down.push({ clue, answer })
-//     }
-
-//     fs.writeFile(new Date().toISOString().slice(0, 10) + ".json", JSON.stringify({ across, down, clues }), function (err, data) {
-//         if (err) {
-//             return console.log(err);
-//         }
-//     })
-
-// })();
 
 module.exports = getCrosswordData;

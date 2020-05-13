@@ -40,6 +40,7 @@ class ClueGenerator():
             lambda: self.searchImdb(query),
             lambda: self.searchGoogleKnowledge(query),
             lambda: self.searchOxfordDictionary(query),
+            lambda: self.searchWordnet(query),
         ])
         print("Finished getting clues")
         self.preprocessClues()
@@ -115,7 +116,7 @@ class ClueGenerator():
             if ";" in definition_text:
                 definition_text = definition_text.split(
                     ";")[1].strip().replace(".", "")
-            print("Making (", definition_text[:10], ") ...nominal form")
+            print("Making (", definition_text[:20], "...) nominal form")
             nominal_form = getNominalDescription(
                 definition_text, self.original_query)
             if nominal_form:
@@ -204,6 +205,8 @@ def getAllClues():
         print("Searching clue for", original_query)
         best_clue = getClue(original_query)
         if best_clue:
+            if best_clue[-1] == '.' or best_clue[-1] == ',':
+                best_clue = best_clue[:-1]
             result.append(
                 (original_query, best_clue.capitalize(), data['clue']))
         else:
