@@ -5,7 +5,7 @@ from nltk.stem.porter import *
 stemmer = PorterStemmer()
 
 GOOGLE_URL = 'https://kgsearch.googleapis.com/v1/entities:search'
-API_KEY = "***REMOVED***"
+API_KEY = "GOOGLE API KEY HERE"
 
 
 def getGoogleKnowledgeClues(query):
